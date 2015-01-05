@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.Net;
 using System.ComponentModel;
+using System.Data.Odbc;
 
 namespace Database
 {
@@ -16,10 +17,11 @@ namespace Database
 		}
 
 		private MainDatabase _db;
-        private Dictionary<int, Item> _albumMap;
 
 		public void DownloadThumbs(BackgroundWorker worker, ref List<int> updateList)
 		{
+            Dictionary<int, Item> albumMap = new Dictionary<int, Item>();
+            List<int> albums = new List<int>();
 			WebClient c = new WebClient();
 			int index = 0, total = _db.GetTotalNumberOfItems();
 			string message = "Checking for thumbnails to download";
@@ -28,35 +30,67 @@ namespace Database
             
 			foreach (Item item in _db.GetItems())
 			{
-				int imageIndex = item.GetPrimaryImageIndex();
+                albumMap.Add(item.Album, item);
+                albums.Add(item.Album);
+            }
 
-				worker.ReportProgress(0, new WorkerReportHandler(message, index, total));
+            StringBuilder builder = new StringBuilder();
 
-				try
-				{
-					if ((!File.Exists(string.Format("{0}\\thumb_images\\{1}_thumb.jpg", System.Windows.Forms.Application.StartupPath, item.ID)) || updateList.Contains(item.ID)) && imageIndex != -1)
-					{
-						message = "Downloading images";
-						DownloadThumbImages(c, item, imageIndex);
-					}
-					else if (updateList.Contains(item.ID) && imageIndex == -1)
-						DeleteThumbImages(item);
-				}
-				catch (WebException error)
-				{
-					if (error.Status == WebExceptionStatus.NameResolutionFailure)
-					{
-						TidyupAfterWork(worker);
-						return;
-					}
-				}
-				catch (Exception)
-				{
-					//DB.ErrorLog(string.Format("Error while downloading image 'http://kisildalur.is/web/uploads/images/{0}_thumb.jpg' for {1}", imageIndex, item.Name), error.Message, error.ToString());
-				}
+            if (albumMap.Count == 0)
+            {
+                TidyupAfterWork(worker);
+                return;
+            }
 
-				index++;
-			}
+            builder.Append(albums[0]);
+            for (int i = 0; i < albums.Count; i++)
+            {
+                builder.Append(",").Append(albums[i]);
+            }
+
+            _db.Connect();
+
+            try
+            {
+                OdbcCommand command = new OdbcCommand(string.Format("select id, fk_album from image where fk_album in ({0})", builder.ToString()), MainDatabase.GetDB.MySQL);
+                OdbcDataReader results = command.ExecuteReader();
+
+                while (results.Read())
+                {
+                    int imageIndex = results.GetInt32(0);
+                    int album = results.GetInt32(1);
+
+                    worker.ReportProgress(0, new WorkerReportHandler(message, index, total));
+
+                    try
+                    {
+                        if ((!File.Exists(string.Format("{0}\\thumb_images\\{1}_thumb.jpg", System.Windows.Forms.Application.StartupPath, albumMap[album].ID)) || updateList.Contains(albumMap[album].ID)))
+                        {
+                            message = "Downloading images";
+                            DownloadThumbImages(c, albumMap[album], imageIndex);
+                        }
+                    }
+                    catch (WebException error)
+                    {
+                        if (error.Status == WebExceptionStatus.NameResolutionFailure)
+                        {
+                            TidyupAfterWork(worker);
+                            return;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        //DB.ErrorLog(string.Format("Error while downloading image 'http://kisildalur.is/web/uploads/images/{0}_thumb.jpg' for {1}", imageIndex, item.Name), error.Message, error.ToString());
+                    }
+
+                    index++;
+                }
+            }
+            catch (Exception e)
+            {
+                _db.ErrorLog("Error while retreaving id for the primary image", e.Message, e.ToString());
+            }
+			
 
 			TidyupAfterWork(worker);
 		}
