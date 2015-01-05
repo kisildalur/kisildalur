@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="Kisildalur.Controls.WebSiteOrder"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:control="clr-namespace:Kisildalur.Controls"
+	x:Name="theControl">
+	<UserControl.Resources>
+		<control:WebOrderToBrush x:Key="WebOrderToBrush" />
+		<control:SiteOrderPaymethodToString x:Key="SiteOrderPaymethodToString" />
+		<control:SiteOrderShippingToString x:Key="SiteOrderShippingToString" />
+	</UserControl.Resources>
+    <Grid>
+		<Grid.Resources>
+			<Style TargetType="{x:Type Button}" x:Key="basicButton">
+				<Setter Property="SnapsToDevicePixels" Value="true"/>
+				<Setter Property="OverridesDefaultStyle" Value="true"/>
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type Button}">
+							<Border BorderThickness="1" CornerRadius="2">
+								<Border.BorderBrush>
+									<LinearGradientBrush StartPoint="0, 0" EndPoint="1, 1">
+										<GradientStop Color="#44919f9b" Offset="0" />
+										<GradientStop Color="#919f9b" Offset="0.5" />
+									</LinearGradientBrush>
+								</Border.BorderBrush>
+								<Border BorderThickness="1" CornerRadius="2" BorderBrush="#406d97" Background="#fafaf8">
+									<Border x:Name="Border" CornerRadius="2" Padding="1">
+										<ContentPresenter x:Name="Content"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											RecognizesAccessKey="True"/>
+									</Border>
+								</Border>
+							</Border>
+							<ControlTemplate.Triggers>
+								<Trigger Property="IsMouseOver" Value="true">
+									<Setter TargetName="Border" Property="BorderBrush" Value="#fcd074" />
+									<Setter TargetName="Border" Property="BorderThickness" Value="1" />
+								</Trigger>
+								<Trigger Property="IsPressed" Value="true">
+									<Setter TargetName="Border" Property="Padding" Value="2, 2, 1, 1" />
+								</Trigger>
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+		</Grid.Resources>
+		<GroupBox VerticalAlignment="Top" BorderBrush="{Binding Converter={StaticResource WebOrderToBrush}}" BorderThickness="1" Padding="3">
+			<GroupBox.HeaderTemplate>
+				<DataTemplate>
+					<TextBlock Foreground="#183a70" FontFamily="Arial" FontSize="12">
+						<TextBlock Text="{Binding Path=DataContext.Name, ElementName=theControl}" />
+						<TextBlock Margin="6, 0, 0, 0" Text="{Binding Path=DataContext.Date, ElementName=theControl, StringFormat=(\{0:D\})}" />
+					</TextBlock>
+				</DataTemplate>
+			</GroupBox.HeaderTemplate>
+			<Grid Margin="12, 0, 0, 0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<TextBlock VerticalAlignment="Center" FontFamily="Verdana" FontSize="11" Foreground="#183a70" Text="{Binding Path=Items.Count , StringFormat=Fjöldi hluta: \{0\}}" />
+				<TextBlock Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Verdana" FontSize="11" Foreground="#183a70" Text="{Binding Path=Items.Total, StringFormat=Samtals: \{0:#\,0\}}" />
+				<TextBlock Grid.Row="1" VerticalAlignment="Center" FontFamily="Verdana" FontSize="11" Foreground="#183a70" Text="{Binding Path=Paymethod, Converter={StaticResource SiteOrderPaymethodToString}}" />
+				<TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontFamily="Verdana" FontSize="11" Foreground="#183a70" Text="{Binding Path=Shipping, Converter={StaticResource SiteOrderShippingToString}}" ToolTipService.ShowDuration="7000">
+					<TextBlock.ToolTip>
+						<TextBlock Text="{Binding Path=ShippingAddress}" />
+					</TextBlock.ToolTip>
+				</TextBlock>
+				<Button VerticalAlignment="Center" Margin="12, 0, 0, 0" Grid.Column="2" x:Name="viewOrder" Width="24" Height="24" ToolTipService.ShowDuration="7000" Style="{StaticResource basicButton}" Click="viewOrder_Click">
+					<Button.ToolTip>
+						<TextBlock>Skoða pöntun.</TextBlock>
+					</Button.ToolTip>
+					<Image VerticalAlignment="Center" HorizontalAlignment="Center" Width="16" Height="16" Source="/Kisildalur;component/Resources/HTMLSubmitHS.png" />
+				</Button>
+			</Grid>
+		</GroupBox>
+	</Grid>
+</UserControl>

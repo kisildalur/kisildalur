@@ -1,0 +1,454 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Drawing;
+using System.Drawing.Printing;
+
+
+namespace Database
+{
+	/// <summary>
+	/// PrinterHelper is used to print an order.
+	/// </summary>
+    public class PrinterHelper
+    {
+		/// <summary>
+		/// Initialize a new instance of PrinterHelper
+		/// </summary>
+		/// <param name="order"></param>
+        public PrinterHelper(Order order, string header1, string header2, string header3, string header4, string header5, string header6)
+        {
+            _page = 1;
+            _order = order;
+            _lineSkip = 0;
+
+            _header1 = header1;
+            _header2 = header2;
+            _header3 = header3;
+            _header4 = header4;
+            _header5 = header5;
+            _header6 = header6;
+        }
+
+        int _page;
+        Order _order;
+        int _lineSkip;
+
+        string _header1;
+        string _header2;
+        string _header3;
+        string _header4;
+        string _header5;
+        string _header6;
+
+
+		/// <summary>
+		/// Reset all settings in Printer Helper.
+		/// Used to reset settings when PrintPreview was used.
+		/// </summary>
+		/// <param name="offer">Specifie whether or not this is a special offer (true) or an order (false).</param>
+		public void ResetHelper(bool offer)
+		{
+			if (offer)
+				_page = 0;
+			else
+				_page = 1;
+		}
+
+		/// <summary>
+		/// Print a single page. Run this call every time PrintPage is called in PrintingDocument.
+		/// V. 1.1: Added support for printing range.
+		/// </summary>
+		/// <param name="e">Print Page events. Needed for printing.</param>
+        public void PrintPage(PrintPageEventArgs e)
+        {
+			//Check for printing range.
+			//So that the user can print etc. a single page instead of 3
+			if (e.PageSettings.PrinterSettings.PrintRange == PrintRange.SomePages)
+			{
+				//Encapsulate pages and skip those who should be skipped
+				while (!(e.PageSettings.PrinterSettings.FromPage <= _page &&
+						e.PageSettings.PrinterSettings.ToPage >= _page) && _page > 0)
+				{
+					//If the first page to be printed is not the first page then skip a page
+					if (e.PageSettings.PrinterSettings.FromPage > _page)
+						_page++;
+					else if (_page >= 4) //If user entered an invalid field etc. From page is 5
+					{
+						//Cancel printing.
+						e.Cancel = true;
+						return;
+					}
+				}
+			}
+            Rectangle pBounds = new Rectangle(50, 50, e.PageBounds.Width - 125, e.PageBounds.Height - 100);
+            int pWidth = pBounds.Width;
+            int pHeight = pBounds.Height;
+            Graphics g = e.Graphics;
+            Font font = new Font("Arial", 10);
+            Brush black = Brushes.Black;
+            float[] colsX = new float[] { pBounds.X, 
+				pBounds.X + pWidth * 0.123783783f, 
+				pBounds.X + pWidth * 0.733513513f, 
+				pBounds.X + pWidth * 0.81513513f, 
+				pBounds.X + pWidth * 0.89189189f, 
+				pBounds.Right };
+            float tableHeadY = pBounds.Y + pHeight * 0.016592f * 11 + 4;
+            float lineHeight = pHeight * 0.016592920353f;
+            StringFormat rightAligned = new StringFormat();
+            rightAligned.Alignment = StringAlignment.Far;
+
+            PrintHeader(pBounds, g, font, black, pWidth, pHeight, lineHeight, rightAligned);
+
+
+            //BORDER
+            g.FillRectangle(Brushes.LightGray,
+                new Rectangle(pBounds.X, Convert.ToInt32(tableHeadY),
+                pBounds.Width, Convert.ToInt32(lineHeight)));
+
+            //Print header information
+            g.DrawString("Vörunúmer:", font, black, new RectangleF(colsX[0], tableHeadY, colsX[1] - colsX[0], lineHeight));
+            g.DrawString("Lýsing:", font, black, new RectangleF(colsX[1], tableHeadY, colsX[2] - colsX[1], lineHeight));
+            if (_page != 0)
+                g.DrawString("Verð:", font, black, new RectangleF(colsX[2], tableHeadY, colsX[3] - colsX[2], lineHeight));
+            g.DrawString("Magn:", font, black, new RectangleF(colsX[3], tableHeadY, colsX[4] - colsX[3], lineHeight));
+            if (_page != 0)
+                g.DrawString("Upphæð:", font, black, new RectangleF(colsX[4], tableHeadY, colsX[5] - colsX[4], lineHeight));
+
+            _lineSkip = 0;
+
+            //Print each and every item in order
+            for (int item = 0; item < _order.Items.Count; item++)
+            {
+                PrintItemDetails(g, font, black, rightAligned, colsX, tableHeadY, lineHeight, item);
+            }
+            _lineSkip += 1;
+
+            //Print the global discount information
+            if (_order.GlobalDiscount.Type != DiscountType.None)
+            {
+                PrintGlobalDiscount(g, font, black, colsX, tableHeadY, lineHeight, rightAligned);
+            }
+
+            g.DrawString("Samtals:", font, black, colsX[2] - 60, pBounds.Y + lineHeight * 52 + 4);
+
+
+            // Búa til streng yfir öll vsk sem eru möguleg, ef vsk af einhverri tegund er 0, þá birtir hún það ekki
+            StringBuilder build = new StringBuilder("Án vsk:\n");
+            long total = _order.Items.Total(_order.GlobalDiscount);
+            long vsk_245 = _order.Items.TotalVsk(_order.GlobalDiscount, ItemVsk.items_245);
+            long vsk_7 = _order.Items.TotalVsk(_order.GlobalDiscount, ItemVsk.books_7);
+            long vsk_0 = _order.Items.TotalVsk(_order.GlobalDiscount, ItemVsk.other_0);
+            long totalVsk = vsk_245 + vsk_7 + vsk_0;
+            if (vsk_245 != 0)
+                build.Append("Vsk 24,5%:\n");
+            if (vsk_7 != 0)
+                build.Append("Vsk 7%:\n");
+            if (vsk_245 == 0 && vsk_7 == 0)
+                build.Append("Vsk:\n");
+            build.Append("Alls:\n\n");
+            g.DrawString(build.ToString(), font, black, colsX[2], pBounds.Y + lineHeight * 52 + 4);
+
+            // Búa til streng sem inniheldur öll vsk
+            build.Remove(0, build.Length);
+            build.AppendFormat("{0:#,0}\n", total - totalVsk);
+            if (vsk_245 != 0)
+                build.AppendFormat("{0:#,0}\n", vsk_245);
+            if (vsk_7 != 0)
+                build.AppendFormat("{0:#,0}\n", vsk_7);
+            if (vsk_245 == 0 && vsk_7 == 0)
+                build.Append("0\n");
+            build.AppendFormat("{0:#,0}\n", total);
+            build.Append("======");
+
+            g.DrawString(build.ToString(), font, black, new RectangleF(pBounds.X + pWidth * 0.89189189f,
+                                                                                   pBounds.Y + pHeight * 0.016592f * 52 + 4,
+                                                                                   pWidth * 0.10918918f,
+                                                                                   pHeight), rightAligned);
+
+            int addExtra = 0;
+            if (_order.Payment.Count > 4)
+                addExtra = _order.Payment.Count - 4;
+            long totalPayment = 0;
+            build.Remove(0, build.Length);
+            build.Append("Greiðslumáti:\n");
+            foreach (OrderPayment payment in _order.Payment)
+            {
+                build.AppendFormat("{0}:\n", payment.Name);
+                totalPayment += payment.Amount;
+            }
+            if (totalPayment > total)
+            {
+                build.Append("Til baka:");
+            }
+            g.DrawString(build.ToString(),
+                            font,
+                            black,
+                            pBounds.X,
+                            pBounds.Y + pHeight * 0.016592f * (52 - addExtra) + 4);
+
+            build.Remove(0, build.Length);
+            build.Append("\n");
+            foreach (OrderPayment payment in _order.Payment)
+            {
+                build.AppendFormat("{0:#,0}\n", payment.Amount);
+            }
+            if (totalPayment > total)
+            {
+                build.AppendFormat("-{0:#,0}\n", totalPayment - total);
+            }
+            g.DrawString(build.ToString(),
+                            font,
+                            black,
+                            new RectangleF(pBounds.X,
+                                           pBounds.Y + pHeight * 0.016592f * (52 - addExtra) + 4,
+                                           pWidth * 0.30918918f,
+                                           pHeight), rightAligned);
+
+
+            PrintFooter(pBounds, pWidth, pHeight, g, font, black, lineHeight);
+
+
+			//This part specifies whether a new page should be printed.
+			//It encapsulates the page attribute and then manipulates the HasMorePage variable
+
+			//Check if we have printed all pages
+            if (_page >= 3 || (_page == 0 && !_order.PrintTwoCopies))
+                e.HasMorePages = false;
+			//Check if a new page should be printed if the order is a deal
+            else if (_order.PrintTwoCopies && _page == 0)
+            {
+                _page = 2;
+
+				//Verifie whether or not a new page should be printed if a specific range has been specified
+				if (e.PageSettings.PrinterSettings.PrintRange == PrintRange.SomePages)
+				{
+					//If the last page is not this one, then we can continue :)
+					if (e.PageSettings.PrinterSettings.ToPage != _page)
+						e.HasMorePages = true;
+				}
+				else
+					e.HasMorePages = true;
+            }
+			//Check if a new page should be printed if the order is just a normal order
+            else
+            {
+				//Verifie whether or not a new page should be printed if a specific range has been specified
+				if (e.PageSettings.PrinterSettings.PrintRange == PrintRange.SomePages)
+				{
+					//If the last page is not this one, then we can continue :)
+					if (e.PageSettings.PrinterSettings.ToPage != _page)
+						e.HasMorePages = true;
+				}
+				else
+					e.HasMorePages = true;
+            }
+            _page++;
+        }
+
+        private void PrintGlobalDiscount(Graphics g, Font font, Brush black, float[] colsX, float tableHeadY, float lineHeight, StringFormat rightAligned)
+        {
+            float currentRowY = tableHeadY + lineHeight * (2 + _order.Items.Count + _lineSkip) + (_lineSkip + _order.Items.Count) * 3;
+
+            g.DrawString(_order.GlobalDiscount.Text,
+                font,
+                black,
+                new RectangleF(colsX[1], currentRowY, colsX[2] - colsX[1], lineHeight));
+
+            if (_order.GlobalDiscount.Type == DiscountType.Percent)
+            {
+                g.DrawString(string.Format("{0}{1}", _order.GlobalDiscount.PercentDiscount, "%"),
+                    font,
+                    black,
+                    new RectangleF(colsX[3], currentRowY, colsX[4] - colsX[3], lineHeight),
+                    rightAligned);
+
+                g.DrawString(string.Format("{0:#,0}", _order.Items.Total(_order.GlobalDiscount) - _order.Items.Total(_order.GlobalDiscount, false)),
+                    font,
+                    black,
+                    new RectangleF(colsX[4], currentRowY, colsX[5] - colsX[4], lineHeight),
+                    rightAligned);
+            }
+            else
+            {
+                g.DrawString(string.Format("{0:#,0}", -_order.GlobalDiscount.CoinDiscount),
+                    font,
+                    black,
+                    new RectangleF(colsX[4], currentRowY, colsX[5] - colsX[4], lineHeight),
+                    rightAligned);
+            }
+        }
+        private void PrintFooter(Rectangle pBounds, int pWidth, int pHeight, Graphics g, Font font, Brush black, float lineHeight)
+        {
+            if (_page != 0 && !_order.PrintTwoCopies)
+            {
+                if (_order.Abyrgd == -1)
+                {
+                    g.DrawString("Lífstíðarábyrgð",
+                        font,
+                        black,
+                        pBounds.X,
+                        pBounds.Y + lineHeight * 58 + 4);
+                }
+                else
+                {
+                    g.DrawString(string.Format("{0} ára ábyrgð", _order.Abyrgd),
+                        font,
+                        black,
+                        pBounds.X,
+                        pBounds.Y + lineHeight * 58 + 4);
+                }
+            }
+
+            if (_page == 1)
+                g.DrawString("Frumrit, gildir einnig sem ábyrgðarskírteini", new Font(font, FontStyle.Bold), black, pBounds.X, pBounds.Y + lineHeight * 59 + 4);
+            else if (_page == 2)
+                g.DrawString("Samrit fyrir bókhald", new Font(font, FontStyle.Bold), black, pBounds.X, pBounds.Y + lineHeight * 59 + 4);
+            else if (_page == 3)
+                g.DrawString("Eintak Söluaðila", new Font(font, FontStyle.Bold), black, pBounds.X, pBounds.Y + lineHeight * 59 + 4);
+            else if (_page == 0)
+                g.DrawString("Tilboð, gildir í 7 daga", new Font(font, FontStyle.Bold), black, pBounds.X, pBounds.Y + lineHeight * 55 + 4);
+        }
+
+        private void PrintHeader(Rectangle pBounds, Graphics g, Font font, Brush black, int pWidth, int pHeight, float lineHeight, StringFormat rightAligned)
+        {
+            g.DrawImage(Image.FromFile("logo.png"), new Rectangle(pBounds.X, pBounds.Y, Convert.ToInt32(pWidth * 0.47), Convert.ToInt32(pHeight * 0.07632)));
+            g.DrawString(string.Format("{0}\n{1}\n{2}", _header1, _header2, _header3), font, black, pBounds.X + pWidth * 0.48f, pBounds.Y);
+            g.DrawString(string.Format("{0}\n{1}\n{2}", _header4, _header5, _header6), font, black, pBounds.X + pWidth * 0.7435135f, pBounds.Y);
+            g.DrawString("Dagsetning:\nTími:\nStarfsmaður:", font, black, pBounds.X + pWidth * 0.48f, pBounds.Y + pHeight * 0.1021f);
+            g.DrawString(string.Format("{0}\n{1}\n{2}", 
+                             DateTime.Now.ToShortDateString(), 
+                             DateTime.Now.ToShortTimeString(), 
+                             Database.GetDB.Users[_order.UserID, true].Name), 
+                font, 
+                black, 
+                new RectangleF(pBounds.X + pWidth * 0.48f, pBounds.Y + pHeight * 0.1021f, (pBounds.X + pWidth * 0.8435135f) - (pBounds.X + pWidth * 0.48f), lineHeight * 3),
+                rightAligned);
+
+            g.DrawLine(Pens.Black, new Point(pBounds.X, pBounds.Y + Convert.ToInt32(pHeight * 0.07632) + 2), new Point(pBounds.X + pBounds.Width, pBounds.Y + Convert.ToInt32(pHeight * 0.07632) + 2));
+            
+            if (_page != 0 && !_order.PrintTwoCopies)
+            {
+                if (_order.Kennitala.Length > 7)
+                    g.DrawString(string.Format("Kt. {0}", _order.Kennitala.Insert(6, "-")),
+                            font,
+                            black,
+                            pBounds.X + 30,
+                            pBounds.Y + lineHeight * 6);
+                else
+                    g.DrawString(string.Format("Kt. {0}", _order.Kennitala),
+                            font,
+                            black,
+                            pBounds.X + 30,
+                            pBounds.Y + lineHeight * 6);
+
+                g.DrawString(string.Format("{0}", _order.Customer.Name),
+                        font,
+                        black,
+                        pBounds.X + 30,
+                        pBounds.Y + lineHeight * 7);
+                
+                g.DrawString(string.Format("{0} {1}", _order.Customer.Address1, _order.Customer.Address2),
+                        font,
+                        black,
+                        pBounds.X + 30,
+                        pBounds.Y + lineHeight * 8);
+
+                g.DrawString(string.Format("{0} {1}", _order.Customer.Zip, _order.Customer.City),
+                        font,
+                        black,
+                        pBounds.X + 30,
+                        pBounds.Y + lineHeight * 9);
+            }
+        }
+
+        private void PrintItemDetails(Graphics g, Font font, Brush black, StringFormat rightAligned, float[] colsX, float tableHeadY, float lineHeight, int item)
+        {
+            float currentRowY = tableHeadY + lineHeight * (2 + item + _lineSkip) + (_lineSkip + item) * 3;
+            Font italic = new Font(font, FontStyle.Italic);
+
+            if (_order.Items[item].Verd == 0)
+                font = italic;
+
+            g.DrawString(_order.Items[item].Vorunr,
+                font,
+                black,
+                new RectangleF(colsX[0], currentRowY, colsX[1] - colsX[0], lineHeight));
+
+            g.DrawString(_order.Items[item].Lysing,
+                font,
+                black,
+                new RectangleF(colsX[1], currentRowY, colsX[2] - colsX[1], lineHeight));
+
+            if (_order.Items[item].Verd != 0 && _order.Items[item].Count != 0)
+            {
+                if (!_order.HidePrice)
+                    g.DrawString(string.Format("{0:#,0}", _order.Items[item].Verd),
+                        font,
+                        black,
+                        new RectangleF(colsX[2], currentRowY, colsX[3] - colsX[2], lineHeight),
+                        rightAligned);
+
+                g.DrawString(_order.Items[item].Count.ToString(),
+                    font,
+                    black,
+                    new RectangleF(colsX[3], currentRowY, colsX[4] - colsX[3], lineHeight),
+                    rightAligned);
+
+                if (!_order.HidePrice)
+                    g.DrawString(string.Format("{0:#,0}", _order.Items[item].Count * _order.Items[item].Verd),
+                        font,
+                        black,
+                        new RectangleF(colsX[4], currentRowY, colsX[5] - colsX[4], lineHeight),
+                        rightAligned);
+            }
+            else if (_order.Items[item].Count > 1)
+            {
+                g.DrawString(_order.Items[item].Count.ToString(),
+                    font,
+                    black,
+                    new RectangleF(colsX[3], currentRowY, colsX[4] - colsX[3], lineHeight),
+                    rightAligned);
+            }
+
+            PrintDiscountRow(_order.Items[item].Discount, _order.Items[item].Verd * _order.Items[item].Count, g, black, italic, rightAligned, colsX, ref currentRowY, lineHeight);
+            if (_order.Items[item].Warranty.Type != WarrantyType.Default)
+            {
+                currentRowY += lineHeight * 1;
+                _lineSkip++;
+
+                if (_order.Items[item].Warranty.Type == WarrantyType.LifeTime)
+                    g.DrawString("    Lífstíðarábyrgð fylgir þessari vöru.", italic, black, new RectangleF(colsX[1], currentRowY, colsX[2] - colsX[1], lineHeight));
+                else
+                    g.DrawString(string.Format("    Ábyrgð í allt að {0} ár fylgir þessari vöru.", _order.Items[item].Warranty.Years), italic, black, new RectangleF(colsX[1], currentRowY, colsX[2] - colsX[1], lineHeight)); ;
+            }
+        }
+
+        private void PrintDiscountRow(Discount discount, double totalPrice, Graphics g, Brush black, Font font, StringFormat rightAligned, float[] colsX, ref float currentRowY, float lineHeight)
+        {
+            if (discount.Type != DiscountType.None && _page != 0)
+            {
+                currentRowY += lineHeight * 1;
+                _lineSkip++;
+
+                if (discount.Type == DiscountType.Coin)
+                {
+                    g.DrawString("    Afsláttur", font, black, new RectangleF(colsX[1], currentRowY, colsX[2] - colsX[1], lineHeight));
+                    g.DrawString(string.Format("-{0:#,0}", discount.CoinDiscount), font, black, new RectangleF(colsX[4], currentRowY, colsX[5] - colsX[4], lineHeight), rightAligned);
+                }
+                else
+                {
+                    g.DrawString("    Afsláttur", font, black, new RectangleF(colsX[1], currentRowY, colsX[2] - colsX[1], lineHeight));
+                    g.DrawString(string.Format("{0}%", discount.PercentDiscount), font, black, new RectangleF(colsX[3], currentRowY, colsX[4] - colsX[3], lineHeight), rightAligned);
+                    g.DrawString(string.Format("-{0:#,0}", discount.PercentDiscount / 100.0 * totalPrice), font, black, new RectangleF(colsX[4], currentRowY, colsX[5] - colsX[4], lineHeight), rightAligned);
+                }
+            }
+        }
+
+		public Order Order
+		{
+			get { return _order; }
+			set { _order = value; }
+		}
+	}
+}

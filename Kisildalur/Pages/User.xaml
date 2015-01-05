@@ -1,0 +1,39 @@
+﻿<Page x:Class="Kisildalur.Pages.User"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converter="clr-namespace:Kisildalur.Pages"
+    Title="User">
+	<Page.Resources>
+		<converter:UserPrivilegesToCombobox x:Key="UserPrivilegesToCombobox" />
+	</Page.Resources>
+
+    <Grid>
+	    <Grid.RowDefinitions>
+		    <RowDefinition Height="*" />
+		    <RowDefinition Height="Auto" />
+	    </Grid.RowDefinitions>
+	    <Grid.ColumnDefinitions>
+		    <ColumnDefinition Width="*" />
+		    <ColumnDefinition Width="*" />
+	    </Grid.ColumnDefinitions>
+	    <StackPanel Grid.ColumnSpan="2" Margin="6">
+		    <GroupBox Header="Nafn" BorderBrush="DarkBlue">
+			    <TextBox x:Name="textboxName" Margin="3" Text="{Binding Path=Name, Mode=OneWay}"></TextBox>
+		    </GroupBox>
+		    <GroupBox Header="Password" Margin="0, 6, 0, 6" BorderBrush="DarkBlue">
+			    <StackPanel Margin="3">
+                    <PasswordBox x:Name="textboxPassword" Margin="0, 0, 0, 3" />
+				    <TextBlock x:Name="textblockWarning" Margin="12, 0, 0, 0" Foreground="DarkRed">Hafðu þetta tómt ef þú vilt<LineBreak />ekki breyta passwordinu.</TextBlock>
+			    </StackPanel>
+		    </GroupBox>
+		    <GroupBox Header="Staða" BorderBrush="DarkBlue">
+			    <ComboBox x:Name="comboboxPrivilegs" Margin="3" SelectedIndex="{Binding Path=Privileges, Mode=OneWay, Converter={StaticResource UserPrivilegesToCombobox}}">
+				    <ComboBoxItem>Sölumaður</ComboBoxItem>
+				    <ComboBoxItem>Admin</ComboBoxItem>
+			    </ComboBox>
+		    </GroupBox>
+	    </StackPanel>
+	    <Button x:Name="buttonSearchLeft" Grid.Row="1" Margin="10, 0, 10, 10" Click="buttonSearchLeft_Click">Hætta við</Button>
+	    <Button x:Name="buttonSearchRight" Grid.Column="1" Grid.Row="1" Margin="10, 0, 10, 10" Click="buttonSearchRight_Click">Vista</Button>
+    </Grid>
+</Page>

@@ -1,0 +1,98 @@
+﻿<Page x:Class="WpfTest.Page1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Page1">
+	<FlowDocumentPageViewer x:Name="viewer">
+		<FlowDocument ColumnWidth="1500" x:Name="page">
+			<Paragraph DataContext="{Binding}" />
+			<Table x:Name="table">
+				<TableRowGroup x:Name="rowGroup">
+					<TableRow>
+						<TableCell>
+							<Paragraph>
+								<TextBlock Text="{Binding}" />
+							</Paragraph>
+						</TableCell>
+					</TableRow>
+				</TableRowGroup>
+			</Table>
+			<!--<Table>
+				<TableRowGroup>
+					<TableRow>
+						<TableCell>
+							<BlockUIContainer>
+								<StackPanel>
+									<TextBlock TextWrapping="Wrap"></TextBlock>
+								</StackPanel>
+							</BlockUIContainer>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<BlockUIContainer>
+								<StackPanel>
+									<TextBlock TextWrapping="Wrap">Nulla facilisi. Quisque sed dolor dolor, sed porttitor arcu. Sed sodales velit at est aliquam aliquam. Nullam sodales quam sed dui rutrum accumsan. Suspendisse dapibus, enim eu condimentum scelerisque, ante justo posuere lorem, eget sollicitudin urna lorem in justo. Sed pellentesque quam id ante ornare euismod. Vestibulum quis dolor quam. Nunc gravida lectus vel lectus consequat at condimentum sem lacinia. In aliquet, tortor ut vulputate ultricies, urna dolor vehicula metus, vel cursus neque nisi sit amet diam. Proin a erat et arcu pretium sodales. Duis varius pharetra elit, sit amet interdum dolor malesuada quis. Nam facilisis, elit in venenatis accumsan, ante lectus imperdiet enim, nec consequat velit enim non diam. Vestibulum scelerisque varius libero consequat fringilla. In congue fermentum tellus, et posuere quam condimentum ut. Mauris dictum sodales venenatis. Nullam a leo mi, at pulvinar ipsum. Phasellus iaculis massa ut lectus aliquam egestas.</TextBlock>
+								</StackPanel>
+							</BlockUIContainer>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<BlockUIContainer>
+								<StackPanel>
+									<TextBlock TextWrapping="Wrap">Nulla facilisi. Quisque sed dolor dolor, sed porttitor arcu. Sed sodales velit at est aliquam aliquam. Nullam sodales quam sed dui rutrum accumsan. Suspendisse dapibus, enim eu condimentum scelerisque, ante justo posuere lorem, eget sollicitudin urna lorem in justo. Sed pellentesque quam id ante ornare euismod. Vestibulum quis dolor quam. Nunc gravida lectus vel lectus consequat at condimentum sem lacinia. In aliquet, tortor ut vulputate ultricies, urna dolor vehicula metus, vel cursus neque nisi sit amet diam. Proin a erat et arcu pretium sodales. Duis varius pharetra elit, sit amet interdum dolor malesuada quis. Nam facilisis, elit in venenatis accumsan, ante lectus imperdiet enim, nec consequat velit enim non diam. Vestibulum scelerisque varius libero consequat fringilla. In congue fermentum tellus, et posuere quam condimentum ut. Mauris dictum sodales venenatis. Nullam a leo mi, at pulvinar ipsum. Phasellus iaculis massa ut lectus aliquam egestas.</TextBlock>
+								</StackPanel>
+							</BlockUIContainer>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<BlockUIContainer>
+								<StackPanel>
+									<TextBlock TextWrapping="Wrap">Nulla facilisi. Quisque sed dolor dolor, sed porttitor arcu. Sed sodales velit at est aliquam aliquam. Nullam sodales quam sed dui rutrum accumsan. Suspendisse dapibus, enim eu condimentum scelerisque, ante justo posuere lorem, eget sollicitudin urna lorem in justo. Sed pellentesque quam id ante ornare euismod. Vestibulum quis dolor quam. Nunc gravida lectus vel lectus consequat at condimentum sem lacinia. In aliquet, tortor ut vulputate ultricies, urna dolor vehicula metus, vel cursus neque nisi sit amet diam. Proin a erat et arcu pretium sodales. Duis varius pharetra elit, sit amet interdum dolor malesuada quis. Nam facilisis, elit in venenatis accumsan, ante lectus imperdiet enim, nec consequat velit enim non diam. Vestibulum scelerisque varius libero consequat fringilla. In congue fermentum tellus, et posuere quam condimentum ut. Mauris dictum sodales venenatis. Nullam a leo mi, at pulvinar ipsum. Phasellus iaculis massa ut lectus aliquam egestas.</TextBlock>
+								</StackPanel>
+							</BlockUIContainer>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<BlockUIContainer>
+								<StackPanel>
+									<TextBlock TextWrapping="Wrap">Nulla facilisi. Quisque sed dolor dolor, sed porttitor arcu. Sed sodales velit at est aliquam aliquam. Nullam sodales quam sed dui rutrum accumsan. Suspendisse dapibus, enim eu condimentum scelerisque, ante justo posuere lorem, eget sollicitudin urna lorem in justo. Sed pellentesque quam id ante ornare euismod. Vestibulum quis dolor quam. Nunc gravida lectus vel lectus consequat at condimentum sem lacinia. In aliquet, tortor ut vulputate ultricies, urna dolor vehicula metus, vel cursus neque nisi sit amet diam. Proin a erat et arcu pretium sodales. Duis varius pharetra elit, sit amet interdum dolor malesuada quis. Nam facilisis, elit in venenatis accumsan, ante lectus imperdiet enim, nec consequat velit enim non diam. Vestibulum scelerisque varius libero consequat fringilla. In congue fermentum tellus, et posuere quam condimentum ut. Mauris dictum sodales venenatis. Nullam a leo mi, at pulvinar ipsum. Phasellus iaculis massa ut lectus aliquam egestas.</TextBlock>
+								</StackPanel>
+							</BlockUIContainer>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<BlockUIContainer>
+								<StackPanel>
+									<TextBlock TextWrapping="Wrap">Nulla facilisi. Quisque sed dolor dolor, sed porttitor arcu. Sed sodales velit at est aliquam aliquam. Nullam sodales quam sed dui rutrum accumsan. Suspendisse dapibus, enim eu condimentum scelerisque, ante justo posuere lorem, eget sollicitudin urna lorem in justo. Sed pellentesque quam id ante ornare euismod. Vestibulum quis dolor quam. Nunc gravida lectus vel lectus consequat at condimentum sem lacinia. In aliquet, tortor ut vulputate ultricies, urna dolor vehicula metus, vel cursus neque nisi sit amet diam. Proin a erat et arcu pretium sodales. Duis varius pharetra elit, sit amet interdum dolor malesuada quis. Nam facilisis, elit in venenatis accumsan, ante lectus imperdiet enim, nec consequat velit enim non diam. Vestibulum scelerisque varius libero consequat fringilla. In congue fermentum tellus, et posuere quam condimentum ut. Mauris dictum sodales venenatis. Nullam a leo mi, at pulvinar ipsum. Phasellus iaculis massa ut lectus aliquam egestas.</TextBlock>
+								</StackPanel>
+							</BlockUIContainer>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<BlockUIContainer>
+								<StackPanel>
+									<TextBlock TextWrapping="Wrap">Nulla facilisi. Quisque sed dolor dolor, sed porttitor arcu. Sed sodales velit at est aliquam aliquam. Nullam sodales quam sed dui rutrum accumsan. Suspendisse dapibus, enim eu condimentum scelerisque, ante justo posuere lorem, eget sollicitudin urna lorem in justo. Sed pellentesque quam id ante ornare euismod. Vestibulum quis dolor quam. Nunc gravida lectus vel lectus consequat at condimentum sem lacinia. In aliquet, tortor ut vulputate ultricies, urna dolor vehicula metus, vel cursus neque nisi sit amet diam. Proin a erat et arcu pretium sodales. Duis varius pharetra elit, sit amet interdum dolor malesuada quis. Nam facilisis, elit in venenatis accumsan, ante lectus imperdiet enim, nec consequat velit enim non diam. Vestibulum scelerisque varius libero consequat fringilla. In congue fermentum tellus, et posuere quam condimentum ut. Mauris dictum sodales venenatis. Nullam a leo mi, at pulvinar ipsum. Phasellus iaculis massa ut lectus aliquam egestas.</TextBlock>
+								</StackPanel>
+							</BlockUIContainer>
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell>
+							<BlockUIContainer>
+								<StackPanel>
+									<TextBlock TextWrapping="Wrap">Nulla facilisi. Quisque sed dolor dolor, sed porttitor arcu. Sed sodales velit at est aliquam aliquam. Nullam sodales quam sed dui rutrum accumsan. Suspendisse dapibus, enim eu condimentum scelerisque, ante justo posuere lorem, eget sollicitudin urna lorem in justo. Sed pellentesque quam id ante ornare euismod. Vestibulum quis dolor quam. Nunc gravida lectus vel lectus consequat at condimentum sem lacinia. In aliquet, tortor ut vulputate ultricies, urna dolor vehicula metus, vel cursus neque nisi sit amet diam. Proin a erat et arcu pretium sodales. Duis varius pharetra elit, sit amet interdum dolor malesuada quis. Nam facilisis, elit in venenatis accumsan, ante lectus imperdiet enim, nec consequat velit enim non diam. Vestibulum scelerisque varius libero consequat fringilla. In congue fermentum tellus, et posuere quam condimentum ut. Mauris dictum sodales venenatis. Nullam a leo mi, at pulvinar ipsum. Phasellus iaculis massa ut lectus aliquam egestas.</TextBlock>
+								</StackPanel>
+							</BlockUIContainer>
+						</TableCell>
+					</TableRow>
+				</TableRowGroup>
+			</Table>-->
+			
+		</FlowDocument>
+	</FlowDocumentPageViewer>
+</Page>

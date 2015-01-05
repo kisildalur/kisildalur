@@ -1,0 +1,22 @@
+﻿<Page x:Class="Kisildalur.Pages.Payment"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Payment">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<StackPanel Grid.ColumnSpan="2" Margin="6">
+			<GroupBox Header="Nafn" BorderBrush="DarkBlue">
+				<TextBox x:Name="textboxName" Margin="3" Text="{Binding Path=Name, Mode=OneWay}"></TextBox>
+			</GroupBox>
+		</StackPanel>
+		<Button x:Name="buttonLeft" Grid.Row="1" Margin="10, 0, 10, 10" Click="buttonLeft_Click">Hætta við</Button>
+		<Button x:Name="buttonRight" Grid.Column="1" Grid.Row="1" Margin="10, 0, 10, 10" Click="buttonRight_Click">Vista</Button>
+	</Grid>
+</Page>

@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F5F4CA49-DDE8-4025-A438-8982922D45C1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kisildalur</RootNamespace>
+    <AssemblyName>Kisildalur</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AODL">
+      <HintPath>.\AODL.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJson, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsFormsIntegration">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="Controls\WebSiteOrder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FormSelectCategory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="History.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Main.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Order.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OrderAddItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="OrderFinish.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ButtonRemove.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\DateControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Payment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\PaymentCollectionEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\PopupConfirmateDelete.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\User.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\UserCollectionEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ViewerCustomer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ViewerOrder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vorugeymsla.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Main.xaml.cs">
+      <DependentUpon>Main.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="A_History.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="A_History.designer.cs">
+      <DependentUpon>A_History.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WebSiteOrder.xaml.cs">
+      <DependentUpon>WebSiteOrder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentReport.cs" />
+    <Compile Include="FlokkurManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FlokkurManager.designer.cs">
+      <DependentUpon>FlokkurManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formKennitalaRetraver.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formKennitalaRetraver.designer.cs">
+      <DependentUpon>formKennitalaRetraver.cs</DependentUpon>
+    </Compile>
+    <Compile Include="formNameSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="formNameSearch.designer.cs">
+      <DependentUpon>formNameSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSelectCategory.xaml.cs">
+      <DependentUpon>FormSelectCategory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ButtonExpandGroup.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\ButtonExpandGroup.Designer.cs">
+      <DependentUpon>ButtonExpandGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\TextboxKennitala.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\TextboxKennitala.Designer.cs">
+      <DependentUpon>TextboxKennitala.cs</DependentUpon>
+    </Compile>
+    <Compile Include="History.xaml.cs">
+      <DependentUpon>History.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ListViewLayout\ConverterGridViewColumn.cs" />
+    <Compile Include="ListViewLayout\FixedColumn.cs" />
+    <Compile Include="ListViewLayout\ImageGridViewColumn.cs" />
+    <Compile Include="ListViewLayout\LayoutColumn.cs" />
+    <Compile Include="ListViewLayout\ListViewLayoutManager.cs" />
+    <Compile Include="ListViewLayout\ProportionalColumn.cs" />
+    <Compile Include="ListViewLayout\RangeColumn.cs" />
+    <Compile Include="ListViewSorter.cs" />
+    <Compile Include="MainLogin.xaml.cs">
+      <DependentUpon>MainLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Main_Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main_Login.designer.cs">
+      <DependentUpon>Main_Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Order.xaml.cs">
+      <DependentUpon>Order.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OrderAddItem.xaml.cs">
+      <DependentUpon>OrderAddItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OrderFinish.xaml.cs">
+      <DependentUpon>OrderFinish.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ButtonRemove.xaml.cs">
+      <DependentUpon>ButtonRemove.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Converters.cs" />
+    <Compile Include="Pages\DateControl.xaml.cs">
+      <DependentUpon>DateControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Payment.xaml.cs">
+      <DependentUpon>Payment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PaymentCollectionEditor.xaml.cs">
+      <DependentUpon>PaymentCollectionEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\PopupConfirmateDelete.xaml.cs">
+      <DependentUpon>PopupConfirmateDelete.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\User.xaml.cs">
+      <DependentUpon>User.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\UserCollectionEditor.xaml.cs">
+      <DependentUpon>UserCollectionEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PostSubmitter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\config.Designer.cs" />
+    <Compile Include="Properties\config1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>config.settings</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIListOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UIListOptions.designer.cs">
+      <DependentUpon>UIListOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UITextbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UITextbox.designer.cs">
+      <DependentUpon>UITextbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Updater.cs" />
+    <Compile Include="ValueConverters.cs" />
+    <Compile Include="ViewerCustomer.xaml.cs">
+      <DependentUpon>ViewerCustomer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewerOrder.xaml.cs">
+      <DependentUpon>ViewerOrder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vorugeymsla.xaml.cs">
+      <DependentUpon>Vorugeymsla.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="A_History.resx">
+      <DependentUpon>A_History.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FlokkurManager.resx">
+      <DependentUpon>FlokkurManager.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formKennitalaRetraver.resx">
+      <DependentUpon>formKennitalaRetraver.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="formNameSearch.resx">
+      <DependentUpon>formNameSearch.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ButtonExpandGroup.resx">
+      <DependentUpon>ButtonExpandGroup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TextboxKennitala.resx">
+      <DependentUpon>TextboxKennitala.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main_Login.resx">
+      <DependentUpon>Main_Login.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UIListOptions.resx">
+      <DependentUpon>UIListOptions.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UITextbox.resx">
+      <DependentUpon>UITextbox.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Properties\config.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>config1.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Database\Database.csproj">
+      <Project>{B806C810-075F-42EE-8E28-7ACFDC2EEC77}</Project>
+      <Name>Database</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\binary.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RepeatHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\SychronizeListHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon_delete.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\clear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="status_anim.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\zoom-in.png" />
+    <Resource Include="Resources\zoom-out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\RefreshDocViewHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\add-user.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\NewCardHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\down.png" />
+    <Resource Include="Resources\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\current_date.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\HTMLSubmitHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ICSharpCode.SharpZipLib.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

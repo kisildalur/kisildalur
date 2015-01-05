@@ -1,0 +1,8 @@
+﻿<Page x:Class="Administer_Application.ObjectPages.FolderPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="FolderPage">
+    <Grid Background="White">
+        
+    </Grid>
+</Page>

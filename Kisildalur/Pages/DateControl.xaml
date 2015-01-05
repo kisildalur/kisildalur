@@ -1,0 +1,143 @@
+﻿<Page x:Class="Kisildalur.Pages.DateControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:kisildalur="clr-namespace:Kisildalur"
+	xmlns:converter="clr-namespace:Kisildalur.Pages"
+	xmlns:system="clr-namespace:System;assembly=mscorlib"
+    Title="DateControl">
+	<Page.Resources>
+		<kisildalur:DateConverter x:Key="DateConverter" />
+		<converter:IntWidthToWidthOffset x:Key="IntWidthToWidthOffset" />
+		<converter:IntMonthToStringName x:Key="IntMonthToStringName" />
+		<converter:DateTimeToDayCollection x:Key="DateTimeToDayCollection" />
+		<converter:TodayToVisibility x:Key="TodayToVisibility" />
+	</Page.Resources>
+    <Grid>
+		<Button x:Name="buttonChangeDate" BorderBrush="Transparent" Background="Transparent" Click="buttonChangeDate_Click">
+			<TextBlock Text="{Binding Converter={StaticResource DateConverter}}" />
+		</Button>
+		<Popup Width="210" Height="0" x:Name="popupSearch" HorizontalOffset="{Binding Path=ActualWidth, ElementName=buttonChangeDate, Converter={StaticResource IntWidthToWidthOffset}}" PlacementTarget="{Binding ElementName=buttonChangeDate}" StaysOpen="False" HorizontalAlignment="Center" Closed="popupSearch_Closed">
+			<Popup.Resources>
+				<Storyboard x:Key="sizePopupOpen">
+					<Storyboard Storyboard.TargetProperty="Height" Storyboard.TargetName="popupSearch">
+						<DoubleAnimation From="0" To="160" Duration="0:0:0.5" />
+					</Storyboard>
+				</Storyboard>
+				<Storyboard x:Key="sizePopupClose">
+					<Storyboard Storyboard.TargetProperty="Height" Storyboard.TargetName="popupSearch">
+						<DoubleAnimation To="0" Duration="0:0:0.5" />
+					</Storyboard>
+				</Storyboard>
+			</Popup.Resources>
+			<Border BorderBrush="DarkGray" BorderThickness="1" Background="White">
+				<Grid x:Name="popupGrid">
+					<Grid.Resources>
+						<DataTemplate x:Key="itemTemplate">
+							<Button x:Name="buttonDay" Visibility="{Binding Path=Visibility}" Width="24" Height="15" BorderBrush="Transparent"  BorderThickness="0" Background="{Binding Path=ColorBackground}" Click="ButtonDay_Click">
+								<Button.Resources>
+									<Style TargetType="{x:Type Button}">
+										<Setter Property="SnapsToDevicePixels" Value="true"/>
+										<Setter Property="OverridesDefaultStyle" Value="true"/>
+										<Setter Property="Template">
+											<Setter.Value>
+												<ControlTemplate TargetType="{x:Type Button}">
+													<Border x:Name="Border" Background="{TemplateBinding Background}" Padding="0, 0, 0, 0">
+														<ContentPresenter 
+															HorizontalAlignment="Center"
+															VerticalAlignment="Center"
+															RecognizesAccessKey="True"/>
+													</Border>
+													<ControlTemplate.Triggers>
+														<Trigger Property="IsPressed" Value="true">
+															<Setter TargetName="Border" Property="Padding" Value="2,2,0,0" />
+															<Setter TargetName="Border" Property="BorderThickness" Value="1" />
+															<Setter TargetName="Border" Property="BorderBrush" Value="#606060" />
+														</Trigger>
+													</ControlTemplate.Triggers>
+												</ControlTemplate>
+											</Setter.Value>
+										</Setter>
+									</Style>
+								</Button.Resources>
+								<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{Binding Path=ColorBackground}">
+									<Image HorizontalAlignment="Center" VerticalAlignment="Center" Width="22" Height="14" Source="/Kisildalur;component/Resources/current_date.png" Visibility="{Binding Path=GetDate, Converter={StaticResource TodayToVisibility}}"></Image>
+									<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{Binding Path=ColorForeground}" Text="{Binding Path=GetDate.Day}" />
+								</Grid>
+							</Button>
+						</DataTemplate>
+						<DataTemplate x:Key="itemMonthTemplate">
+							<TextBlock Margin="1, 0, 1, 0"  Foreground="LightBlue" Text="{Binding}" />
+						</DataTemplate>
+						<ControlTemplate x:Key="controlTemplate" TargetType="{x:Type ItemsControl}">
+							<WrapPanel IsItemsHost="True" Orientation="Horizontal"/>
+						</ControlTemplate>
+						<ControlTemplate x:Key="controlMonthTemplate" TargetType="{x:Type ItemsControl}">
+							<Border Margin="0, 3, 0, 0" Padding="0, 0, 0, 2" BorderThickness="0, 0, 0, 1" BorderBrush="Black">
+								<WrapPanel IsItemsHost="True" Orientation="Horizontal"/>
+							</Border>
+						</ControlTemplate>
+					</Grid.Resources>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<Grid Background="Blue">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<StackPanel Margin="0, 3, 0, 0"  Orientation="Horizontal" HorizontalAlignment="Center">
+							<Button x:Name="buttonPreviousMonth" Margin="0, 0, 0, 5" VerticalAlignment="Top" Width="18" Height="18" Padding="0, -3, 0, 0" Click="buttonPreviousMonth_Click">«</Button>
+							<TextBlock FontWeight="Bold" Foreground="White" Width="60" Margin="3, 2, 3, 0" Text="{Binding Path=Month, Mode=OneWay, Converter={StaticResource IntMonthToStringName}}" TextAlignment="Center" />
+							<Button x:Name="buttonNextMonth" Margin="0, 0, 0, 5" VerticalAlignment="Top" Width="18" Height="18" Padding="0, -3, 0, 0" Click="buttonNextMonth_Click">»</Button>
+						</StackPanel>
+						<StackPanel Margin="0, 3, 0, 0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+							<Button x:Name="buttonPreviousYear" Margin="0, 0, 0, 5" Width="18" Height="18" Padding="0, -3, 0, 0" Click="buttonPreviousYear_Click">«</Button>
+							<TextBlock FontWeight="Bold" Foreground="White" Width="60" Margin="3, 2, 3, 0" TextAlignment="Center" Text="{Binding Path=Year, Mode=OneWay}" />
+							<Button x:Name="buttonNextYear" Margin="0, 0, 0, 5" Width="18" Height="18" Padding="0, -3, 0, 0" Click="buttonNextYear_Click">»</Button>
+						</StackPanel>
+					</Grid>
+					<ScrollViewer Width="168" VerticalAlignment="Center" Grid.Row="1" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
+						<ItemsControl
+							x:Name="itemsControlDaysNames"
+						   ItemTemplate="{StaticResource itemMonthTemplate}"
+						   Template="{StaticResource controlMonthTemplate}">
+						</ItemsControl>
+					</ScrollViewer>
+					<ScrollViewer Width="168" Margin="0, 3, 0, 0"  VerticalAlignment="Center" Grid.Row="2" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
+						<ItemsControl
+							ItemsSource="{Binding Converter={StaticResource DateTimeToDayCollection}}"
+						   ItemTemplate="{StaticResource itemTemplate}"
+						   Template="{StaticResource controlTemplate}">
+						</ItemsControl>
+					</ScrollViewer>
+					<Button x:Name="buttonToday" Margin="6, 3, 0, 3" HorizontalAlignment="Left" Grid.Row="3" Click="buttonToday_Click">
+						<Button.Resources>
+							<Style TargetType="{x:Type Button}">
+								<Setter Property="SnapsToDevicePixels" Value="true"/>
+								<Setter Property="OverridesDefaultStyle" Value="true"/>
+								<Setter Property="Template">
+									<Setter.Value>
+										<ControlTemplate TargetType="{x:Type Button}">
+											<ContentPresenter 
+												HorizontalAlignment="Center"
+												VerticalAlignment="Center"
+												RecognizesAccessKey="True"/>
+										</ControlTemplate>
+									</Setter.Value>
+								</Setter>
+							</Style>
+						</Button.Resources>
+						<StackPanel Orientation="Horizontal" >
+							<Image HorizontalAlignment="Center" VerticalAlignment="Center" Width="22" Height="14" Source="/Kisildalur;component/Resources/current_date.png"></Image>
+							<TextBlock Margin="6, 0, 3, 0"  Text="Í dag:" />
+							<TextBlock Text="{Binding Source={x:Static system:DateTime.Now}, Converter={StaticResource DateConverter}}" />
+						</StackPanel>
+					</Button>
+				</Grid>
+			</Border>
+		</Popup>
+	</Grid>
+</Page>

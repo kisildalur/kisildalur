@@ -1,0 +1,262 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Kisildalur.Properties" GeneratedClassName="config">
+  <Profiles />
+  <Settings>
+    <Setting Name="dvSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">709, 530</Value>
+    </Setting>
+    <Setting Name="dvSplitWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">224</Value>
+    </Setting>
+    <Setting Name="dvLeft0Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">177</Value>
+    </Setting>
+    <Setting Name="dvRight0Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">89</Value>
+    </Setting>
+    <Setting Name="dvRight1Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">101</Value>
+    </Setting>
+    <Setting Name="dvRight2Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">67</Value>
+    </Setting>
+    <Setting Name="dvRight3Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="fmSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">380, 271</Value>
+    </Setting>
+    <Setting Name="fmtop0Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">229</Value>
+    </Setting>
+    <Setting Name="kSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">538, 559</Value>
+    </Setting>
+    <Setting Name="loSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">308, 320</Value>
+    </Setting>
+    <Setting Name="lSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">386, 130</Value>
+    </Setting>
+    <Setting Name="pSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">741, 440</Value>
+    </Setting>
+    <Setting Name="ptop0Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="ptop1Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">285</Value>
+    </Setting>
+    <Setting Name="ptop2Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="ptop3Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="ptop4Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="umtop0Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">229</Value>
+    </Setting>
+    <Setting Name="addSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">623, 398</Value>
+    </Setting>
+    <Setting Name="addleft0Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">136</Value>
+    </Setting>
+    <Setting Name="addSizeWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">623</Value>
+    </Setting>
+    <Setting Name="addSizeHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">398</Value>
+    </Setting>
+    <Setting Name="addtop2Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">120</Value>
+    </Setting>
+    <Setting Name="addSplitWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">174</Value>
+    </Setting>
+    <Setting Name="header1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Kísildalur ehf.
+Álfheimar 2 - 104 Reykjavík
+Sími: 517 1150</Value>
+    </Setting>
+    <Setting Name="header2" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Kt. 670905-0550
+VSK no 87926
+Bankanr. 0301-26-004802</Value>
+    </Setting>
+    <Setting Name="header3" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Sími: 517 1150</Value>
+    </Setting>
+    <Setting Name="header4" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Kt. 670905-0550</Value>
+    </Setting>
+    <Setting Name="header5" Type="System.String" Scope="User">
+      <Value Profile="(Default)">VSK no 87926</Value>
+    </Setting>
+    <Setting Name="header6" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Bankanr. 0301-26-004802</Value>
+    </Setting>
+    <Setting Name="mysql_host" Type="System.String" Scope="User">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+    <Setting Name="mysql_user" Type="System.String" Scope="User">
+      <Value Profile="(Default)">kisill</Value>
+    </Setting>
+    <Setting Name="mysql_port" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3306</Value>
+    </Setting>
+    <Setting Name="mysql_database" Type="System.String" Scope="User">
+      <Value Profile="(Default)">kisill</Value>
+    </Setting>
+    <Setting Name="order_id" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="settSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">856, 602</Value>
+    </Setting>
+    <Setting Name="settHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">400</Value>
+    </Setting>
+    <Setting Name="settWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">600</Value>
+    </Setting>
+    <Setting Name="settSplitTextbox" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">372</Value>
+    </Setting>
+    <Setting Name="mainWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">600</Value>
+    </Setting>
+    <Setting Name="mainHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">410</Value>
+    </Setting>
+    <Setting Name="mainWidth0" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="mainWidth1" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="mainWidth2" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="mainWidth3" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="historyListWidth0" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="historyListWidth1" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="historyListWidth2" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="historyListWidth3" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="historyListWidth4" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="historySearchWidth0" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="historySearchWidth1" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="historySearchWidth2" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="historySearchWidth3" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="historySearchWidth4" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="historySearchWidth5" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="historyListWidth5" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="orderViewerSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">100, 100</Value>
+    </Setting>
+    <Setting Name="orderViewerWidth0" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="orderViewerWidth1" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="orderViewerWidth2" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="orderViewerWidth3" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="orderViewerWidth4" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="pontunSplitWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">658</Value>
+    </Setting>
+    <Setting Name="dvRight4Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">102</Value>
+    </Setting>
+    <Setting Name="addtop3Width" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="pSizeWidth" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">900</Value>
+    </Setting>
+    <Setting Name="pSizeHeight" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">600</Value>
+    </Setting>
+    <Setting Name="orderFinishWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">650</Value>
+    </Setting>
+    <Setting Name="orderFinishHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">550</Value>
+    </Setting>
+    <Setting Name="formSelectCategoryWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">450</Value>
+    </Setting>
+    <Setting Name="formSelectCategoryHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">350</Value>
+    </Setting>
+    <Setting Name="pSplitWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">200</Value>
+    </Setting>
+    <Setting Name="vorugeymslaWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">850</Value>
+    </Setting>
+    <Setting Name="vorugeymslaHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">550</Value>
+    </Setting>
+    <Setting Name="viewCustWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">650</Value>
+    </Setting>
+    <Setting Name="viewCustHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">580</Value>
+    </Setting>
+    <Setting Name="viewCustSplit" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">245</Value>
+    </Setting>
+    <Setting Name="viewOrdWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">900</Value>
+    </Setting>
+    <Setting Name="viweOrdHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">650</Value>
+    </Setting>
+    <Setting Name="historyWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">900</Value>
+    </Setting>
+    <Setting Name="historyHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">650</Value>
+    </Setting>
+    <Setting Name="historySize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)">700, 400</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

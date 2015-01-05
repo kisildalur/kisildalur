@@ -1,0 +1,482 @@
+﻿<Window x:Class="Kisildalur.ViewerOrder"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:kisildalur="clr-namespace:Kisildalur"
+	xmlns:properties="clr-namespace:Kisildalur.Properties"
+	xmlns:ctrl="clr-namespace:Itenso.Windows.Controls.ListViewLayout"
+    Height="{Binding Path=viewOrdHeight, Source={x:Static properties:config.Default}, Mode=TwoWay}"
+	Width="{Binding Path=viewOrdWidth, Source={x:Static properties:config.Default}, Mode=TwoWay}"
+	Icon="/Kisildalur;component/Resources/icon.ico" 
+	WindowStartupLocation="CenterScreen"
+	x:Name="viewerOrder"
+    Title="Pöntun">
+	<Window.Resources>
+		<kisildalur:PriceToFormattedString x:Key="PriceToFormattedString" />
+		<kisildalur:OrderContainsCustomer x:Key="OrderContainsCustomer" />
+		<kisildalur:DateConverter x:Key="DateConverter" />
+		<kisildalur:TimeConverter x:Key="TimeConverter" />
+		<kisildalur:IntIdToStaffName x:Key="IntIdToStaffName" />
+		<kisildalur:EmptyStringToHeight x:Key="EmptyStringToHeight" />
+		<kisildalur:StringToVisibility x:Key="StringToVisibility" />
+	</Window.Resources>
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.Background>
+			<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+				<GradientStop Color="#eef2df" Offset="0" />
+				<GradientStop Color="#ced1c1" Offset="1" />
+			</LinearGradientBrush>
+		</Grid.Background>
+		<Border BorderBrush="DarkGray" Margin="10" BorderThickness="1" Background="White" Padding="10, 5" >
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="*"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
+				<Grid Margin="0, 6, 15, 6">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock VerticalAlignment="Center" Width="30" Margin="0, 0, 6, 0" Text="Kt." />
+							<TextBlock Text="{Binding Path=Customer.Kennitala, Mode=OneWay}" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Margin="0, 0, 0, 0">
+							<TextBlock x:Name="textblockName" VerticalAlignment="Center" Width="30" Margin="0, 0, 6, 0" Text="Nafn:" />
+							<TextBlock VerticalAlignment="Center" Text="{Binding Path=Customer.Name, Mode=OneWay}" />
+							<StackPanel Orientation="Horizontal">
+								<Button x:Name="editCustomerInformation" Margin="6, 0, 0, 0" Height="20" Width="50" IsEnabled="{Binding Path=Customer, Converter={StaticResource OrderContainsCustomer}}" Click="editCustomerInformation_Click">Breyta</Button>
+							</StackPanel>
+						</StackPanel>
+						<StackPanel Margin="0, 0, 0, 0" Orientation="Horizontal">
+							<TextBlock FontSize="11" FontFamily="Arial" Text="{Binding Path=Customer.Address1}" />
+							<TextBlock Text=" " />
+							<TextBlock FontSize="11" FontFamily="Arial" Text="{Binding Path=Customer.Address2}" />
+						</StackPanel>
+						<StackPanel Margin="0, 3, 0, 0" Orientation="Horizontal">
+							<TextBlock FontSize="11" FontFamily="Arial" Text="{Binding Path=Customer.Zip}" />
+							<TextBlock Text=" " />
+							<TextBlock FontSize="11" FontFamily="Arial" Text="{Binding Path=Customer.City}" />
+						</StackPanel>
+					</StackPanel>
+					<StackPanel Grid.Column="1">
+						<TextBlock Margin="0, 0, 50, 0" FontFamily="Arial" FontSize="12" Text="Dagsetning:"  />
+						<TextBlock Margin="0, 0, 50, 0" FontFamily="Arial" FontSize="12" Text="Tími:"  />
+						<TextBlock Margin="0, 0, 50, 0" FontFamily="Arial" FontSize="12" Text="Starfsmaður:"  />
+					</StackPanel>
+					<StackPanel Grid.Column="2">
+						<TextBlock Margin="30, 0, 15, 0" TextAlignment="Right" FontFamily="Arial" FontSize="12" Text="{Binding Path=Date, Converter={StaticResource DateConverter}}"  />
+						<TextBlock Margin="30, 0, 15, 0" TextAlignment="Right" FontFamily="Arial" FontSize="12" Text="{Binding Path=Date, Converter={StaticResource TimeConverter}}"  />
+						<TextBlock Margin="30, 0, 15, 0" TextAlignment="Right" FontFamily="Arial" FontSize="12" Text="{Binding Path=UserID, Converter={StaticResource IntIdToStaffName}}"  />
+					</StackPanel>
+				</Grid>
+				<ListView Grid.Row="1" x:Name="listItems" Margin="0, 5, 0, 12" BorderBrush="DarkGray" BorderThickness="1" Background="Gray" Grid.ColumnSpan="3" ItemsSource="{Binding Items}" ctrl:ListViewLayoutManager.Enabled="true">
+					<ListView.Resources>
+						<Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}">
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate TargetType="{x:Type ScrollViewer}">
+										<Grid Background="White">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="*"/>
+												<ColumnDefinition Width="Auto"/>
+											</Grid.ColumnDefinitions>
+											<Grid.RowDefinitions>
+												<RowDefinition Height="*"/>
+												<RowDefinition Height="Auto"/>
+											</Grid.RowDefinitions>
+											<DockPanel Margin="{TemplateBinding Padding}">
+												<ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Focusable="false">
+													<Grid Margin="0, 0, 0, 0">
+														<GridViewHeaderRowPresenter
+																Columns="{Binding Path=TemplatedParent.View.Columns,RelativeSource={RelativeSource TemplatedParent}}"
+																ColumnHeaderContainerStyle="{Binding Path=TemplatedParent.View.ColumnHeaderContainerStyle,RelativeSource={RelativeSource TemplatedParent}}"
+																ColumnHeaderTemplate="{Binding Path=TemplatedParent.View.ColumnHeaderTemplate,RelativeSource={RelativeSource TemplatedParent}}"
+																ColumnHeaderTemplateSelector="{Binding Path=TemplatedParent.View.ColumnHeaderTemplateSelector,RelativeSource={RelativeSource TemplatedParent}}"
+																AllowsColumnReorder="{Binding Path=TemplatedParent.View.AllowsColumnReorder,RelativeSource={RelativeSource TemplatedParent}}"
+																ColumnHeaderContextMenu="{Binding Path=TemplatedParent.View.ColumnHeaderContextMenu,RelativeSource={RelativeSource TemplatedParent}}"
+																ColumnHeaderToolTip="{Binding Path=TemplatedParent.View.ColumnHeaderToolTip,RelativeSource={RelativeSource TemplatedParent}}"
+																SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+													</Grid>
+												</ScrollViewer>
+
+												<Border Background="White" BorderThickness="0, 1, 0, 0" Padding="0, 5, 5, 0">
+													<ScrollContentPresenter Name="PART_ScrollContentPresenter" KeyboardNavigation.DirectionalNavigation="Local"/>
+												</Border>
+											</DockPanel>
+
+											<ScrollBar Name="PART_HorizontalScrollBar"
+											Orientation="Horizontal"
+											Grid.Row="1"
+											Maximum="{TemplateBinding ScrollableWidth}"
+											ViewportSize="{TemplateBinding ViewportWidth}"
+											Value="{TemplateBinding HorizontalOffset}"
+											Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+
+											<ScrollBar Name="PART_VerticalScrollBar"
+											Grid.Column="1"
+											Maximum="{TemplateBinding ScrollableHeight}"
+											ViewportSize="{TemplateBinding ViewportHeight}"
+											Value="{TemplateBinding VerticalOffset}"/>
+
+										</Grid>
+									</ControlTemplate>
+								</Setter.Value>
+							</Setter>
+						</Style>
+
+						<Style x:Key="GridViewColumnHeaderGripper" TargetType="{x:Type Thumb}">
+							<Setter Property="Width" Value="18"/>
+							<Setter Property="Background" Value="#404040"/>
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate TargetType="{x:Type Thumb}" />
+								</Setter.Value>
+							</Setter>
+						</Style>
+
+						<!-- HEADER BAR -->
+						<Style x:Key="{x:Type GridViewColumnHeader}" TargetType="{x:Type GridViewColumnHeader}">
+							<!--<Setter Property="HorizontalContentAlignment" Value="{TemplateBinding VerticalAlignment}"/>-->
+							<Setter Property="VerticalContentAlignment" Value="Center"/>
+							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+							<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+										<Grid>
+											<Border Name="HeaderBorder" Padding="3, 0, 0, 0" Background="LightGray">
+												<ContentPresenter Name="HeaderContent"
+														Margin="0,3,0,3"
+														VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+														HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+														RecognizesAccessKey="True"
+														SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+											</Border>
+											<Thumb x:Name="PART_HeaderGripper"
+													HorizontalAlignment="Right"
+													Margin="0,0,-6,0"
+													Style="{StaticResource GridViewColumnHeaderGripper}"/>
+										</Grid>
+										<ControlTemplate.Triggers>
+											<Trigger Property="IsEnabled" Value="false">
+												<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+											</Trigger>
+										</ControlTemplate.Triggers>
+									</ControlTemplate>
+								</Setter.Value>
+							</Setter>
+							<Style.Triggers>
+								<Trigger Property="Role" Value="Floating">
+									<Setter Property="Opacity" Value="0.7"/>
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+												<Canvas Name="PART_FloatingHeaderCanvas">
+													<Rectangle 
+															Fill="#60000000"
+															Width="{TemplateBinding ActualWidth}"
+															Height="{TemplateBinding ActualHeight}"/>
+												</Canvas>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+								</Trigger>
+							</Style.Triggers>
+						</Style>
+						<!-- END HEADER BAR -->
+
+						<!-- START ListViewItem -->
+						<Style x:Key="{x:Type ListViewItem}" TargetType="{x:Type ListViewItem}">
+							<Setter Property="SnapsToDevicePixels" Value="true"/>
+							<Setter Property="OverridesDefaultStyle" Value="true"/>
+							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate TargetType="{x:Type ListBoxItem}">
+										<Grid Margin="0, 0, 0, 3">
+											<Grid.RowDefinitions>
+												<RowDefinition Height="Auto" />
+												<RowDefinition Height="Auto" />
+											</Grid.RowDefinitions>
+											<Border Grid.Row="0" Name="Border"  SnapsToDevicePixels="true">
+												<GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+											</Border>
+											<Border Grid.Row="1" Height="Auto" Name="BorderSub" SnapsToDevicePixels="true">
+												<ListView Background="Transparent" BorderBrush="Transparent" ItemsSource="{Binding SubItems}" ctrl:ListViewLayoutManager.Enabled="true">
+													<ListView.Resources>
+														<Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}">
+															<Setter Property="Template">
+																<Setter.Value>
+																	<ControlTemplate TargetType="{x:Type ScrollViewer}">
+																		<Grid Background="White">
+																			<DockPanel Margin="{TemplateBinding Padding}">
+																				<Border Background="White">
+																					<ScrollContentPresenter Name="PART_ScrollContentPresenter" KeyboardNavigation.DirectionalNavigation="Local"/>
+																				</Border>
+																			</DockPanel>
+																		</Grid>
+																	</ControlTemplate>
+																</Setter.Value>
+															</Setter>
+														</Style>
+														<!-- HEADER BAR -->
+														<Style x:Key="{x:Type GridViewColumnHeader}" TargetType="{x:Type GridViewColumnHeader}">
+															<Setter Property="Template">
+																<Setter.Value>
+																	<ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+																		<Grid />
+																	</ControlTemplate>
+																</Setter.Value>
+															</Setter>
+														</Style>
+														<Style x:Key="{x:Type ListViewItem}" TargetType="{x:Type ListViewItem}">
+															<Setter Property="SnapsToDevicePixels" Value="true"/>
+															<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+															<Setter Property="Template">
+																<Setter.Value>
+																	<ControlTemplate TargetType="{x:Type ListBoxItem}">
+																		<GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+																	</ControlTemplate>
+																</Setter.Value>
+															</Setter>
+														</Style>
+													</ListView.Resources>
+													<ListView.View>
+														<GridView>
+															<GridViewColumn Width="{Binding Path=ptop0Width, Source={x:Static properties:config.Default}}" Header="Vörunúmer">
+																<GridViewColumn.CellTemplate>
+																	<DataTemplate>
+																		<TextBlock FontSize="10" FontStyle="Italic" Text="{Binding Vorunr}"/>
+																	</DataTemplate>
+																</GridViewColumn.CellTemplate>
+															</GridViewColumn>
+															<GridViewColumn Header="SubNafn" ctrl:RangeColumn.IsFillColumn="true">
+																<GridViewColumn.CellTemplate>
+																	<DataTemplate>
+																		<TextBlock FontSize="10" Margin="13, 0, 0, 0" FontStyle="Italic" Text="{Binding Name}"/>
+																	</DataTemplate>
+																</GridViewColumn.CellTemplate>
+															</GridViewColumn>
+															<GridViewColumn Width="{Binding Path=ptop2Width, Source={x:Static properties:config.Default}}" Header="Verð">
+																<GridViewColumn.CellTemplate>
+																	<DataTemplate>
+																		<TextBlock FontSize="10" TextAlignment="Right" Margin="0, 0, 0, 0" Text="{Binding Price}"/>
+																	</DataTemplate>
+																</GridViewColumn.CellTemplate>
+															</GridViewColumn>
+															<GridViewColumn Width="{Binding Path=ptop3Width, Source={x:Static properties:config.Default}, Mode=TwoWay}" Header="Fjöldi">
+																<GridViewColumn.CellTemplate>
+																	<DataTemplate>
+																		<TextBlock FontSize="10" TextAlignment="Right" Margin="0, 0, 0, 0" Text="{Binding Count}"/>
+																	</DataTemplate>
+																</GridViewColumn.CellTemplate>
+															</GridViewColumn>
+															<GridViewColumn Width="{Binding Path=ptop4Width, Source={x:Static properties:config.Default}}" Header="Fjöldi">
+																<GridViewColumn.CellTemplate>
+																	<DataTemplate />
+																</GridViewColumn.CellTemplate>
+															</GridViewColumn>
+														</GridView>
+													</ListView.View>
+												</ListView>
+											</Border>
+										</Grid>
+									</ControlTemplate>
+								</Setter.Value>
+							</Setter>
+						</Style>
+						<!-- END ListViewItem -->
+					</ListView.Resources>
+					<ListView.View>
+						<GridView AllowsColumnReorder="False">
+							<GridViewColumn x:Name="listItemsColumn1" Width="{Binding Path=ptop0Width, Source={x:Static properties:config.Default}}" Header="Vörunúmer:">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Grid>
+											<TextBlock Text="{Binding Vorunr}" />
+										</Grid>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn Header="Nafn:" ctrl:RangeColumn.IsFillColumn="true">
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Grid>
+											<Grid.RowDefinitions>
+												<RowDefinition Height="*" />
+												<RowDefinition Height="Auto" />
+											</Grid.RowDefinitions>
+											<TextBlock Grid.Row="0" Text="{Binding Name}" />
+											<Grid Grid.Row="1">
+												<TextBlock Height="{Binding SubName, Converter={StaticResource EmptyStringToHeight}}" FontStyle="italic" Margin="15, 2, 0, 0" Text="{Binding SubName}" />
+											</Grid>
+										</Grid>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn Width="{Binding Path=ptop2Width, Source={x:Static properties:config.Default}}">
+								<GridViewColumn.HeaderTemplate>
+									<DataTemplate>
+										<TextBlock TextAlignment="Right" Margin="0, 0, 6, 0" >Verð:</TextBlock>
+									</DataTemplate>
+								</GridViewColumn.HeaderTemplate>
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Grid>
+											<TextBlock TextAlignment="Right" Text="{Binding Price, Mode=OneWay, Converter={StaticResource PriceToFormattedString}}" />
+										</Grid>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn Width="{Binding Path=ptop3Width, Source={x:Static properties:config.Default}}">
+								<GridViewColumn.HeaderTemplate>
+									<DataTemplate>
+										<TextBlock TextAlignment="Right" Margin="0, 0, 6, 0">Fjöldi:</TextBlock>
+									</DataTemplate>
+								</GridViewColumn.HeaderTemplate>
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Grid>
+											<TextBlock TextAlignment="Right"  Text="{Binding Count}" />
+										</Grid>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+							<GridViewColumn Width="{Binding Path=ptop4Width, Source={x:Static properties:config.Default}}">
+								<GridViewColumn.HeaderTemplate>
+									<DataTemplate>
+										<TextBlock TextAlignment="Right" Margin="0, 0, 6, 0">Samtals:</TextBlock>
+									</DataTemplate>
+								</GridViewColumn.HeaderTemplate>
+								<GridViewColumn.CellTemplate>
+									<DataTemplate>
+										<Grid>
+											<TextBlock TextAlignment="Right" Text="{Binding TotalPrice, Mode=OneWay, Converter={StaticResource PriceToFormattedString}}">
+											</TextBlock>
+										</Grid>
+									</DataTemplate>
+								</GridViewColumn.CellTemplate>
+							</GridViewColumn>
+						</GridView>
+					</ListView.View>
+				</ListView>
+				<StackPanel Grid.Row="2" Margin="0, 0, 0, 12">
+					<GroupBox Visibility="{Binding Path=Comment, Mode=OneWay, Converter={StaticResource StringToVisibility}}" Header="Aukaupplýsingar sem komu fram á nótunni" Margin="0, 0, 0, 3" Padding="2, 2, 2, 0">
+						<TextBox Height="35" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Text="{Binding Path=Comment, Mode=TwoWay}"></TextBox>
+					</GroupBox>
+					<GroupBox Visibility="{Binding Path=Notes, Mode=OneWay, Converter={StaticResource StringToVisibility}}" Header="Aukaupplýsingar sem komu EKKI fram á nótunni" Padding="2, 2, 2, 0">
+						<TextBox Height="35" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Text="{Binding Path=Notes, Mode=TwoWay}"></TextBox>
+					</GroupBox>
+				</StackPanel>
+				<Grid Grid.Row="3">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<GroupBox VerticalAlignment="Top" x:Name="groupboxPayments" Header="Greiðslumáti" Margin="0, 0, 25, 0"  Padding="3, 6, 3, 3">
+						<ListView VerticalAlignment="Center"  x:Name="listPayments" ItemsSource="{Binding Path=Payment}" ctrl:ListViewLayoutManager.Enabled="true" MinHeight="15" BorderThickness="0">
+							<ListView.Resources>
+								<Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}">
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="{x:Type ScrollViewer}">
+												<Grid Background="White">
+													<DockPanel Margin="{TemplateBinding Padding}">
+														<Border Background="White">
+															<ScrollContentPresenter Name="PART_ScrollContentPresenter" KeyboardNavigation.DirectionalNavigation="Local"/>
+														</Border>
+													</DockPanel>
+												</Grid>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+								</Style>
+								<!-- HEADER BAR -->
+								<Style x:Key="{x:Type GridViewColumnHeader}" TargetType="{x:Type GridViewColumnHeader}">
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+												<Grid />
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+								</Style>
+								<!-- ListView Item -->
+								<Style x:Key="{x:Type ListViewItem}" TargetType="{x:Type ListViewItem}">
+									<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+									<Setter Property="Template">
+										<Setter.Value>
+											<ControlTemplate TargetType="{x:Type ListBoxItem}">
+												<Grid Margin="0, 3, 0, 3">
+													<GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+												</Grid>
+											</ControlTemplate>
+										</Setter.Value>
+									</Setter>
+								</Style>
+							</ListView.Resources>
+							<ListView.View>
+								<GridView>
+									<GridViewColumn ctrl:RangeColumn.IsFillColumn="true">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<TextBlock Margin="3, 0, 0, 0"  x:Name="paymentMethod" Text="{Binding Path=Name, Mode=OneWay}"/>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+									<GridViewColumn Width="100">
+										<GridViewColumn.CellTemplate>
+											<DataTemplate>
+												<StackPanel HorizontalAlignment="Right"  Orientation="Horizontal">
+													<TextBlock TextAlignment="Right" Text="{Binding Path=Amount, Mode=OneWay, Converter={StaticResource PriceToFormattedString}}" Margin="0, 0, 3, 0" />
+													<TextBlock TextAlignment="Right" Text="kr." Margin="0, 0, 1, 0" />
+												</StackPanel>
+											</DataTemplate>
+										</GridViewColumn.CellTemplate>
+									</GridViewColumn>
+								</GridView>
+							</ListView.View>
+						</ListView>
+					</GroupBox>
+					<StackPanel VerticalAlignment="Center" Grid.Column="1" Margin="0, 0, 20, 0">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+							<TextBlock FontFamily="Arial" FontSize="12" Text="Samtals án vask: " />
+							<TextBlock Width="100" TextAlignment="Right" FontFamily="Arial" FontSize="12" Text="{Binding Path=TotalWithoutVSK, Mode=OneWay, Converter={StaticResource PriceToFormattedString}}" />
+							<TextBlock FontFamily="Arial" FontSize="12" Text=" kr." />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0, 5, 0, 0">
+							<TextBlock FontFamily="Arial" FontSize="12" Text="Vaskur: " />
+							<TextBlock Width="100" TextAlignment="Right" FontFamily="Arial" FontSize="12" Text="{Binding Path=TotalVSK, Mode=OneWay, Converter={StaticResource PriceToFormattedString}}" />
+							<TextBlock FontFamily="Arial" FontSize="12" Text=" kr." />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0, 5, 0, 0">
+							<TextBlock FontFamily="Arial" FontSize="12" Text="Samtals: " />
+							<TextBlock Width="100" TextAlignment="Right" FontFamily="Arial" FontSize="12" Text="{Binding Path=Total, Mode=OneWay, Converter={StaticResource PriceToFormattedString}}" />
+							<TextBlock FontFamily="Arial" FontSize="12" Text=" kr." />
+						</StackPanel>
+					</StackPanel>
+					<TextBlock Grid.Row="1" Grid.ColumnSpan="2" Foreground="Red" x:Name="orderId" Margin="0, 6, 20, 6" HorizontalAlignment="Right" FontFamily="Arial" FontWeight="Bold" FontSize="12" Text="{Binding Path=OrderNumber, Mode=OneWay}"/>
+				</Grid>
+			</Grid>
+		</Border>
+		<GroupBox Grid.Row="1" Margin="0, 0, 12, 6" Width="200" HorizontalAlignment="Left" Header="Hætta" Padding="3, 3, 3, 3" BorderBrush="#244c63">
+			<Button Width="100" Height="23" Click="Button_Click">Loka pöntun</Button>
+		</GroupBox>
+		<GroupBox Grid.Row="1" Margin="0, 0, 12, 6" Width="200" HorizontalAlignment="Right" Header="Prenta" Padding="3, 3, 3, 3" BorderBrush="#244c63">
+			<Button x:Name="buttonPrint" Width="100" Height="23" Click="buttonPrint_Click">Endurprenta pöntun</Button>
+		</GroupBox>
+	</Grid>
+</Window>

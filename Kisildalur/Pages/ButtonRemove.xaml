@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Kisildalur.Pages.ButtonRemove"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="buttonRemove">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <Storyboard Storyboard.TargetProperty="Height" Storyboard.TargetName="popup">
+                            <DoubleAnimation From="0" To="130" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
+        <Popup StaysOpen="False" Width="250" Height="0" x:Name="popup" PlacementTarget="{Binding ElementName=buttonRemove}">
+            <Popup.Resources>
+                <Storyboard x:Key="sizePopupClose">
+                    <Storyboard Storyboard.TargetProperty="Height" Storyboard.TargetName="popup">
+                        <DoubleAnimation To="0" Duration="0:0:0.5" />
+                    </Storyboard>
+                </Storyboard>
+            </Popup.Resources>
+            <Frame DataContext="{Binding}" x:Name="frameRemove" Grid.Row="1" Loaded="frameRemove_Loaded" />
+        </Popup>
+        <Button x:Name="buttonRemove" Background="Transparent" BorderBrush="Transparent" Click="buttonRemove_Click">
+            <Image Width="16" Height="16" Source="/Kisildalur;component/Resources/icon_delete.png"></Image>
+        </Button>
+    </Grid>
+</UserControl>

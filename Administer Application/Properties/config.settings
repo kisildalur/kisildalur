@@ -1,0 +1,27 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Administer_Application.Properties" GeneratedClassName="config">
+  <Profiles />
+  <Settings>
+    <Setting Name="mainWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">750</Value>
+    </Setting>
+    <Setting Name="mainHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">450</Value>
+    </Setting>
+    <Setting Name="itemViewerSplit" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">225</Value>
+    </Setting>
+    <Setting Name="mysql_host" Type="System.String" Scope="User">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+    <Setting Name="mysql_port" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3306</Value>
+    </Setting>
+    <Setting Name="mysql_database" Type="System.String" Scope="User">
+      <Value Profile="(Default)">kisill</Value>
+    </Setting>
+    <Setting Name="mysql_user" Type="System.String" Scope="User">
+      <Value Profile="(Default)">kisill</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

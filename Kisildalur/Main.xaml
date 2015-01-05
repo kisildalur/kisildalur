@@ -1,0 +1,180 @@
+﻿<Window x:Class="Kisildalur.Main"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="clr-namespace:Kisildalur.Controls"
+	xmlns:properties="clr-namespace:Kisildalur.Properties"
+    Title="Sölukerfið"
+	Height="{Binding Path=mainHeight, Source={x:Static properties:config.Default}, Mode=TwoWay}"
+	Width="{Binding Path=mainWidth, Source={x:Static properties:config.Default}, Mode=TwoWay}"
+	MinWidth="450"
+	MinHeight="410"
+	Icon="/Kisildalur;component/Resources/icon.ico"
+	WindowStartupLocation="CenterScreen"
+	Closing="Window_Closing">
+    <Grid>
+		<Grid.Resources>
+			<DataTemplate x:Key="webOrder">
+				<controls:WebSiteOrder Margin="0, 0, 0, 6" ViewOrderClick="WebSiteOrder_ViewOrderClick" />
+			</DataTemplate>
+			<ControlTemplate x:Key="controlTemplate" TargetType="{x:Type ItemsControl}">
+				<StackPanel IsItemsHost="True" />
+			</ControlTemplate>
+		</Grid.Resources>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Kisildalur;component/Resources/binary.png" TileMode="Tile" ViewportUnits="Absolute" Viewport="0,0,200,36" />
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+		<ScrollViewer Margin="10, 15, 10, 10" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Focusable="false" Background="#e7edf5" >
+			<Border BorderBrush="#3b619c" BorderThickness="1">
+				<StackPanel Margin="10">
+					<TextBlock Foreground="#183a70" FontSize="12">Nýjar pantanir</TextBlock>
+					<Border BorderThickness="1" Margin="0, 5, 0, 5" Height="1">
+						<Border.BorderBrush>
+							<LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+								<GradientStop Color="#8aa8e4" Offset="0.5" />
+								<GradientStop Color="Transparent" Offset="1" />
+							</LinearGradientBrush>
+						</Border.BorderBrush>
+					</Border>
+					<ItemsControl x:Name="listNewOrders"
+							Margin="12, 0, 12, 0"
+							ItemTemplate="{StaticResource webOrder}"
+							Template="{StaticResource controlTemplate}">
+					</ItemsControl>
+					<TextBlock Foreground="#183a70" Margin="0, 6, 0, 0" FontSize="12">Staðfestar pantanir</TextBlock>
+					<Border BorderThickness="1" Margin="0, 5, 0, 5" Height="1">
+						<Border.BorderBrush>
+							<LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+								<GradientStop Color="#8aa8e4" Offset="0.5" />
+								<GradientStop Color="Transparent" Offset="1" />
+							</LinearGradientBrush>
+						</Border.BorderBrush>
+					</Border>
+					<ItemsControl x:Name="listConfirmedOrders"
+							Margin="12, 0, 12, 0"
+							ItemTemplate="{StaticResource webOrder}"
+							Template="{StaticResource controlTemplate}">
+					</ItemsControl>
+				</StackPanel>
+			</Border>
+		</ScrollViewer>
+		<StackPanel Grid.Column="1">
+			<GroupBox Margin="10" Padding="5, 10">
+				<GroupBox.HeaderTemplate>
+					<DataTemplate>
+						<TextBlock Foreground="White">Pöntun</TextBlock>
+					</DataTemplate>
+				</GroupBox.HeaderTemplate>
+				<StackPanel Orientation="Vertical" VerticalAlignment="Center">
+					<Button x:Name="buttonNewOrder" Height="26" Click="buttonNewOrder_Click">Búa til pöntun</Button>
+				</StackPanel>
+			</GroupBox>
+			<GroupBox Margin="10" Padding="5, 10">
+				<GroupBox.HeaderTemplate>
+					<DataTemplate>
+						<TextBlock Foreground="White">Vörugeymsla</TextBlock>
+					</DataTemplate>
+				</GroupBox.HeaderTemplate>
+				<StackPanel Orientation="Vertical" VerticalAlignment="Center">
+					<Button x:Name="buttonDatabase" Margin="0, 0, 0, 10" Height="26" Click="buttonDatabase_Click">Vörugeymslan</Button>
+					<Button x:Name="buttonSettings" Margin="0, 10, 0, 0" Height="26" Click="buttonSettings_Click">Stillingar</Button>
+				</StackPanel>
+			</GroupBox>
+			<GroupBox Margin="10" Padding="5, 10">
+				<GroupBox.HeaderTemplate>
+					<DataTemplate>
+						<TextBlock Foreground="White">Gera upp</TextBlock>
+					</DataTemplate>
+				</GroupBox.HeaderTemplate>
+				<StackPanel Orientation="Vertical" VerticalAlignment="Center">
+					<Button x:Name="buttonHistory" Margin="0, 0, 0, 10" Height="26" Click="buttonHistory_Click">Pantanir og uppgjör</Button>
+					<Button x:Name="buttonClose" Margin="0, 10, 0, 0" Height="26" Click="buttonClose_Click">Loka</Button>
+				</StackPanel>
+			</GroupBox>
+		</StackPanel>
+        <StatusBar Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Height="Auto" BorderBrush="Black">
+            <StatusBar.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Color="#92968d" Offset="0" />
+                    <GradientStop Color="#e0e2d6" Offset="0.1" />
+                    <GradientStop Color="#e0e2d6" Offset="0.85" />
+                    <GradientStop Color="#ced1c1" Offset="0.99" />
+                    <GradientStop Color="#dde0d4" Offset="1" />
+                </LinearGradientBrush>
+            </StatusBar.Background>
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                <TextBlock x:Name="statusText" FontFamily="Tahoma" FontSize="11" VerticalAlignment="Center" Text="{Binding Path=Status}" />
+                <ProgressBar x:Name="progressBar" Width="150" Value="{Binding Path=Value}" Maximum="{Binding Path=MaxValue}" Margin="10,0,10,0" />
+                <Button x:Name="refreshDatabase" Width="18" Height="18" ToolTipService.ShowDuration="7000" Click="refreshDatabase_Click">
+                    <Button.ToolTip><TextBlock>Skoða breytingar í gagnagrunninum og hlaða þeim niður.<LineBreak />Þetta keyrist sjálfkrafa á 10 min fresti.</TextBlock></Button.ToolTip>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="SnapsToDevicePixels" Value="true"/>
+                            <Setter Property="OverridesDefaultStyle" Value="true"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" BorderThickness="1" BorderBrush="Transparent">
+                                            <ContentPresenter
+                                                x:Name="Content"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                RecognizesAccessKey="True"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="true">
+                                                <Setter TargetName="Border" Property="BorderBrush" Value="DarkGray" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="true">
+                                                <Setter TargetName="Border" Property="Padding" Value="1, 1, 0, 0" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Image VerticalAlignment="Top" HorizontalAlignment="Left" Source="/Kisildalur;component/Resources/SychronizeListHS.png" />
+                </Button>
+                <Button Width="18" Height="18" ToolTipService.ShowDuration="7000" Margin="5, 0, 0, 0" Click="Button_Click">
+                    <Button.ToolTip><TextBlock>Hreinsa allar upplýsingar frá gagnagrunninum úr minni og sækja nýjar frá gagnagrunninum.<LineBreak />Mjög sniðugt þegar stórar breytingar hafa verið gerðar í gagnagrunninum.</TextBlock></Button.ToolTip>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="SnapsToDevicePixels" Value="true"/>
+                            <Setter Property="OverridesDefaultStyle" Value="true"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" BorderThickness="1" BorderBrush="Transparent">
+                                            <ContentPresenter
+                                                x:Name="Content"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                RecognizesAccessKey="True"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="true">
+                                                <Setter TargetName="Border" Property="BorderBrush" Value="DarkGray" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="true">
+                                                <Setter TargetName="Border" Property="Padding" Value="1, 1, 0, 0" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Image VerticalAlignment="Top" HorizontalAlignment="Left" Source="/Kisildalur;component/Resources/RepeatHS.png"  />
+                </Button>
+            </StackPanel>
+        </StatusBar>
+    </Grid>
+</Window>

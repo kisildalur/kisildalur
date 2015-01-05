@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{B806C810-075F-42EE-8E28-7ACFDC2EEC77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Administer Application", "Administer Application\Administer Application.csproj", "{AA28E36D-D9D8-47D4-8D46-479A69D9187E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kisildalur", "Kisildalur\Kisildalur.csproj", "{F5F4CA49-DDE8-4025-A438-8982922D45C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{A256DA14-730E-4705-B394-3FA8A25001B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfTest", "WpfTest\WpfTest.csproj", "{54CBCE7D-2590-4E37-A665-283AF7761A65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AODL", "..\AODL 1.4.0.3.src\AODL\AODL.csproj", "{89E926D3-3471-47C8-8D34-01FF2AF72F71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentNHibernate", "..\FluentNHibernate\src\src\FluentNHibernate\FluentNHibernate.csproj", "{529145D5-6CC3-4016-89B5-826563024AF1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B806C810-075F-42EE-8E28-7ACFDC2EEC77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B806C810-075F-42EE-8E28-7ACFDC2EEC77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B806C810-075F-42EE-8E28-7ACFDC2EEC77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B806C810-075F-42EE-8E28-7ACFDC2EEC77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA28E36D-D9D8-47D4-8D46-479A69D9187E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA28E36D-D9D8-47D4-8D46-479A69D9187E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA28E36D-D9D8-47D4-8D46-479A69D9187E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA28E36D-D9D8-47D4-8D46-479A69D9187E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5F4CA49-DDE8-4025-A438-8982922D45C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5F4CA49-DDE8-4025-A438-8982922D45C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5F4CA49-DDE8-4025-A438-8982922D45C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5F4CA49-DDE8-4025-A438-8982922D45C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A256DA14-730E-4705-B394-3FA8A25001B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A256DA14-730E-4705-B394-3FA8A25001B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A256DA14-730E-4705-B394-3FA8A25001B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A256DA14-730E-4705-B394-3FA8A25001B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54CBCE7D-2590-4E37-A665-283AF7761A65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54CBCE7D-2590-4E37-A665-283AF7761A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54CBCE7D-2590-4E37-A665-283AF7761A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54CBCE7D-2590-4E37-A665-283AF7761A65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89E926D3-3471-47C8-8D34-01FF2AF72F71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89E926D3-3471-47C8-8D34-01FF2AF72F71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89E926D3-3471-47C8-8D34-01FF2AF72F71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89E926D3-3471-47C8-8D34-01FF2AF72F71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{529145D5-6CC3-4016-89B5-826563024AF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{529145D5-6CC3-4016-89B5-826563024AF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{529145D5-6CC3-4016-89B5-826563024AF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{529145D5-6CC3-4016-89B5-826563024AF1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

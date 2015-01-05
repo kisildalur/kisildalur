@@ -1,0 +1,640 @@
+﻿<Window x:Class="Kisildalur.Vorugeymsla"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:kisildalur="clr-namespace:Kisildalur"
+	xmlns:properties="clr-namespace:Kisildalur.Properties"
+	xmlns:ctrl="clr-namespace:Itenso.Windows.Controls.ListViewLayout"
+	xmlns:pages="clr-namespace:Kisildalur.Pages"
+	Height="{Binding Path=vorugeymslaHeight, Source={x:Static properties:config.Default}, Mode=TwoWay}"
+	Width="{Binding Path=vorugeymslaWidth, Source={x:Static properties:config.Default}, Mode=TwoWay}"
+	Icon="/Kisildalur;component/Resources/icon.ico"
+	WindowStartupLocation="CenterScreen"
+    Title="Vörugeymsla"
+	Closing="Window_Closing">
+	<Window.Resources>
+		<kisildalur:IntIdToImageExistInt x:Key="IntIdToImageExistInt" />
+		<kisildalur:PriceToFormattedString x:Key="PriceToFormattedString" />
+		<kisildalur:IntIdToImageThumbPath x:Key="IntIdToImageThumbPath" />
+		<kisildalur:IntIdToImageSmallPath x:Key="IntIdToImageSmallPath" />
+		<kisildalur:ItemDescriptionToString x:Key="ItemDescriptionToString" />
+		<kisildalur:ItemIsVisibleToBool x:Key="ItemIsVisibleToBool" />
+		<kisildalur:ItemSubItemsToString x:Key="ItemSubItemsToString" />
+		<kisildalur:ItemCalculatePriceToString x:Key="ItemCalculatePriceToString" />
+		<kisildalur:ItemSelectedToBool x:Key="ItemSelectedToBool" />
+	</Window.Resources>
+	<Grid>
+		<Grid.Background>
+			<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+				<GradientStop Color="#eef2df" Offset="0" />
+				<GradientStop Color="#ced1c1" Offset="1" />
+				<!--<GradientStop Color="#ced1c1" Offset="0" />
+				<GradientStop Color="#dde0d4" Offset="1" />-->
+			</LinearGradientBrush>
+		</Grid.Background>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="{Binding Path=addSplitWidth, Source={x:Static properties:config.Default}, Mode=OneWay}" />
+			<ColumnDefinition Width="3" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<TreeView x:Name="treeCategories" Margin="6" ItemsSource="{Binding Folders}">
+			<TreeView.Resources>
+				<Style x:Key="{x:Type TreeView}" TargetType="{x:Type TreeView}">
+					<Setter Property="OverridesDefaultStyle" Value="True" />
+					<Setter Property="SnapsToDevicePixels" Value="True" />
+					<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+					<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="{x:Type TreeView}">
+								<Border 
+								  Name="Border" 
+								  CornerRadius="1" 
+								  Background="#FFFFFF"
+								  BorderBrush="#888888"
+								  BorderThickness="1" >
+									<ScrollViewer 
+										Focusable="False"
+										CanContentScroll="False"
+										Padding="4">
+										<ItemsPresenter/>
+									</ScrollViewer>
+								</Border>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+
+				<!-- SimpleStyles: TreeViewItem -->
+
+				<Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
+					<Setter Property="Focusable" Value="False"/>
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="{x:Type ToggleButton}">
+								<Grid
+								  Width="15"
+								  Height="13"
+								  Background="Transparent">
+									<Path x:Name="ExpandPath"
+										HorizontalAlignment="Left" 
+										VerticalAlignment="Center" 
+										Margin="1,1,1,1"
+										Fill="#404040"
+										Data="M 4 0 L 8 4 L 4 8 Z"/>
+								</Grid>
+								<ControlTemplate.Triggers>
+									<Trigger Property="IsChecked"
+										Value="True">
+										<Setter Property="Data"
+											TargetName="ExpandPath"
+											Value="M 0 4 L 8 4 L 4 8 Z"/>
+									</Trigger>
+								</ControlTemplate.Triggers>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+				<Style TargetType="TreeViewItem">
+					<Setter Property="IsExpanded" Value="True" />
+					<Setter Property="Template">
+						<Setter.Value>
+							<ControlTemplate TargetType="{x:Type TreeViewItem}">
+								<Grid x:Name="treeViewGrid">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition MinWidth="15" Width="Auto"/>
+										<ColumnDefinition Width="*"/>
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto"/>
+										<RowDefinition/>
+									</Grid.RowDefinitions>
+									<ToggleButton 
+										x:Name="Expander"
+										Style="{StaticResource ExpandCollapseToggleStyle}"
+										IsChecked="{Binding Path=IsExpanded,RelativeSource={RelativeSource TemplatedParent}}"
+										ClickMode="Press"/>
+									<Border 
+										Name="Border" 
+										Grid.Column="1"
+										Padding="0"
+										Background="#00FFFFFF">
+										<ContentPresenter 
+										  x:Name="PART_Header"
+										  ContentSource="Header"
+										  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+									</Border>
+									<ItemsPresenter 
+											x:Name="ItemsHost"
+											Grid.Row="1"
+											Grid.Column="1"/>
+								</Grid>
+
+								<ControlTemplate.Triggers>
+									<Trigger Property="IsExpanded" Value="false">
+										<Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/>
+									</Trigger>
+									<Trigger Property="HasItems" Value="false">
+										<Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
+									</Trigger>
+									<Trigger Property="IsSelected" Value="true">
+										<Setter TargetName="Border" Property="Background" Value="#A5A5A5"/>
+									</Trigger>
+								</ControlTemplate.Triggers>
+							</ControlTemplate>
+						</Setter.Value>
+					</Setter>
+				</Style>
+				<!-- SimpleStyles: TreeView -->
+			</TreeView.Resources>
+			<TreeView.ItemTemplate>
+				<HierarchicalDataTemplate ItemsSource="{Binding Path=Categories}">
+					<TextBlock FontWeight="Bold" Text="{Binding Path=Name}" />
+					<HierarchicalDataTemplate.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Path=Name}"/>
+						</DataTemplate>
+					</HierarchicalDataTemplate.ItemTemplate>
+				</HierarchicalDataTemplate>
+			</TreeView.ItemTemplate>
+		</TreeView>
+		<GridSplitter ResizeDirection="Columns" Grid.Column="1" BorderThickness="1" BorderBrush="#4414384d" Background="#6614384d" Margin="0, 3, 0, 3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+		<Grid Grid.Column="2">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<ListView x:Name="listItems" Grid.Column="2" Margin="6" ItemsSource="{Binding Path=SelectedItem.Items, ElementName=treeCategories}" ctrl:ListViewLayoutManager.Enabled="true" SelectionChanged="listItems_SelectionChanged">
+				<ListView.Resources>
+					<Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}">
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="{x:Type ScrollViewer}">
+									<Grid Background="{TemplateBinding Background}">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="*"/>
+											<ColumnDefinition Width="Auto"/>
+										</Grid.ColumnDefinitions>
+										<Grid.RowDefinitions>
+											<RowDefinition Height="*"/>
+											<RowDefinition Height="Auto"/>
+										</Grid.RowDefinitions>
+
+										<DockPanel Margin="{TemplateBinding Padding}">
+											<ScrollViewer DockPanel.Dock="Top"
+											  HorizontalScrollBarVisibility="Hidden"
+											  VerticalScrollBarVisibility="Hidden"
+											  Focusable="false">
+
+											</ScrollViewer>
+
+											<ScrollContentPresenter Name="PART_ScrollContentPresenter"
+												KeyboardNavigation.DirectionalNavigation="Local"/>
+										</DockPanel>
+
+										<ScrollBar Name="PART_HorizontalScrollBar"
+											Orientation="Horizontal"
+											Grid.Row="1"
+											Maximum="{TemplateBinding ScrollableWidth}"
+											ViewportSize="{TemplateBinding ViewportWidth}"
+											Value="{TemplateBinding HorizontalOffset}"
+											Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+
+										<ScrollBar Name="PART_VerticalScrollBar"
+											Grid.Column="1"
+											Maximum="{TemplateBinding ScrollableHeight}"
+											ViewportSize="{TemplateBinding ViewportHeight}"
+											Value="{TemplateBinding VerticalOffset}"
+											Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+
+									</Grid>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+					</Style>
+
+					<Style x:Key="{x:Type ListViewItem}" TargetType="{x:Type ListViewItem}">
+						<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="{x:Type ListBoxItem}">
+									<Grid>
+										<Border x:Name="Border" BorderThickness="0, 0, 0, 1" Background="#00FFFFFF" BorderBrush="#CCCCCC" Margin="0, 0, 0, 0" Padding="5, 11, 5, 8">
+											<GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+										</Border>
+									</Grid>
+									<ControlTemplate.Triggers>
+										<Trigger Property="IsSelected" Value="true">
+											<Setter TargetName="Border" Property="Background">
+												<Setter.Value>
+													<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+														<GradientStop Color="#A5A5A5" Offset="0" />
+														<GradientStop Color="#FFFFFF" Offset="0.3" />
+														<GradientStop Color="#FFFFFF" Offset="0.7" />
+														<GradientStop Color="#A5A5A5" Offset="1" />
+													</LinearGradientBrush>
+												</Setter.Value>
+											</Setter>
+										</Trigger>
+									</ControlTemplate.Triggers>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+					</Style>
+				</ListView.Resources>
+				<ListView.View>
+					<GridView>
+						<GridViewColumn Header="" ctrl:RangeColumn.IsFillColumn="true" >
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<Grid>
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="70" />
+											<ColumnDefinition Width="*" />
+										</Grid.ColumnDefinitions>
+										<Border VerticalAlignment="Center" Margin="0, 0, 10, 0" BorderThickness="{Binding Path=ID, Converter={StaticResource IntIdToImageExistInt}, Mode=OneWay}" BorderBrush="#CCCCCC" >
+											<Image Source="{Binding Path=ID, Converter={StaticResource IntIdToImageThumbPath}, Mode=OneWay}" />
+										</Border>
+										<Grid Grid.Column="1">
+											<Grid.RowDefinitions>
+												<RowDefinition Height="*" />
+												<RowDefinition Height="Auto" />
+											</Grid.RowDefinitions>
+											<StackPanel>
+												<TextBlock FontSize="14" Foreground="#000000">
+													<TextBlock Foreground="#555555" Text="{Binding ProductID}" />
+													<TextBlock Text="-" />
+													<TextBlock Text="{Binding Name}" />
+												</TextBlock>
+												<TextBlock FontSize="13" Text="{Binding Path=Sub}" />
+												<StackPanel Margin="6, 6, 0, 0">
+													<TextBlock FontSize="11" Foreground="Green" Text="{Binding Path=GetItem, Converter={StaticResource ItemDescriptionToString}}" />
+												</StackPanel>
+											</StackPanel>
+											<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 5, 0, 0">
+												<TextBlock FontWeight="Bold" FontSize="13" Foreground="#e48422">kr. <TextBlock Text="{Binding Price, Converter={StaticResource PriceToFormattedString}}" /><TextBlock FontSize="11" Foreground="#555555" FontWeight="Normal"  Text="{Binding Path=GetItem, Converter={StaticResource ItemCalculatePriceToString}}" /></TextBlock>
+											</StackPanel>
+										</Grid>
+									</Grid>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+					</GridView>
+				</ListView.View>
+			</ListView>
+			<Grid x:Name="gridProductInfo" Height="{Binding Path=ActualHeight, ElementName=treeCategories, Mode=OneWay}" Grid.Row="1" Margin="6">
+				<Grid.Resources>
+					<Storyboard x:Key="gridOpenAnimation">
+						<Storyboard Storyboard.TargetProperty="(Grid.Height)" Storyboard.TargetName="gridProductInfo">
+							<DoubleAnimation From="320"
+										To="{Binding Path=ActualHeight, ElementName=treeCategories, Mode=OneWay}"
+										Duration="00:00:0.5" FillBehavior="Stop">
+							</DoubleAnimation>
+						</Storyboard>
+					</Storyboard>
+					<Storyboard x:Key="gridCloseAnimation">
+						<Storyboard Storyboard.TargetProperty="(Grid.Height)" Storyboard.TargetName="gridProductInfo">
+							<DoubleAnimation From="{Binding Path=ActualHeight, ElementName=treeCategories, Mode=OneWay}"
+										To="320"
+										Duration="00:00:0.5" FillBehavior="Stop">
+							</DoubleAnimation>
+						</Storyboard>
+					</Storyboard>
+				</Grid.Resources>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<GroupBox Header="Vöruupplýsingar" Padding="3, 3, 3, 0" BorderBrush="#244c63">
+					<Grid >
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+						<Border Margin="0, 0, 10, 0" BorderThickness="1" BorderBrush="#999999" VerticalAlignment="Top" >
+							<Image x:Name="itemImagePreview" Width="150" Height="150" Source="{Binding Path=SelectedItem.ID, ElementName=listItems, Converter={StaticResource IntIdToImageSmallPath}, Mode=OneWay}" />
+						</Border>
+						<StackPanel Grid.Column="1" x:Name="stackpanelProductInfo">
+							<StackPanel.Resources>
+								<Storyboard x:Key="errorEmptyId">
+									<Storyboard Storyboard.TargetProperty="Background.Color" Storyboard.TargetName="textboxProductId">
+										<ColorAnimationUsingKeyFrames>
+											<LinearColorKeyFrame Value="Red" KeyTime="0:0:0" />
+											<LinearColorKeyFrame Value="Red" KeyTime="0:0:0.5" />
+											<LinearColorKeyFrame Value="White" KeyTime="0:0:3" />
+										</ColorAnimationUsingKeyFrames>
+									</Storyboard>
+								</Storyboard>
+								<Storyboard x:Key="errorEmptyName">
+									<Storyboard Storyboard.TargetProperty="Background.Color" Storyboard.TargetName="textboxProductName">
+										<ColorAnimationUsingKeyFrames>
+											<LinearColorKeyFrame Value="Red" KeyTime="0:0:0" />
+											<LinearColorKeyFrame Value="Red" KeyTime="0:0:0.5" />
+											<LinearColorKeyFrame Value="White" KeyTime="0:0:3" />
+										</ColorAnimationUsingKeyFrames>
+									</Storyboard>
+								</Storyboard>
+								<Storyboard x:Key="errorEmptyPrice">
+									<Storyboard Storyboard.TargetProperty="Background.Color" Storyboard.TargetName="textboxProductPrice">
+										<ColorAnimationUsingKeyFrames>
+											<LinearColorKeyFrame Value="Red" KeyTime="0:0:0" />
+											<LinearColorKeyFrame Value="Red" KeyTime="0:0:0.5" />
+											<LinearColorKeyFrame Value="White" KeyTime="0:0:3" />
+										</ColorAnimationUsingKeyFrames>
+									</Storyboard>
+								</Storyboard>
+							</StackPanel.Resources>
+							<GroupBox Header="Vörunúmer og nafn" Padding="3, 3, 3, 3" BorderBrush="#244c63">
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="70" />
+										<ColumnDefinition Width="*" />
+									</Grid.ColumnDefinitions>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+									<TextBlock Text="Vörunúmer" VerticalAlignment="Center" Margin="0, 0, 0, 6" />
+									<TextBox IsEnabled="{Binding Path=SelectedItem, ElementName=listItems, Mode=OneWay, Converter={StaticResource ItemSelectedToBool}}" MaxLength="20" x:Name="textboxProductId" Grid.Column="1" Margin="12, 0, 0, 6" Text="{Binding Path=SelectedItem.ProductID, ElementName=listItems, Mode=OneWay}"/>
+									<TextBlock Text="Nafn" Grid.Row="1" VerticalAlignment="Center" Margin="0, 0, 0, 6" />
+									<TextBox IsEnabled="{Binding Path=SelectedItem, ElementName=listItems, Mode=OneWay, Converter={StaticResource ItemSelectedToBool}}" x:Name="textboxProductName" Grid.Row="1" Grid.Column="1" Margin="12, 0, 0, 6" Text="{Binding Path=SelectedItem.Name, ElementName=listItems, Mode=OneWay}" />
+									<TextBlock Text="Sublýsing" Grid.Row="2" VerticalAlignment="Center" />
+									<TextBox IsEnabled="{Binding Path=SelectedItem, ElementName=listItems, Mode=OneWay, Converter={StaticResource ItemSelectedToBool}}" x:Name="textboxProductSub" Grid.Row="2" Grid.Column="1" Margin="12, 0, 0, 0" Text="{Binding Path=SelectedItem.Sub, ElementName=listItems, Mode=OneWay}"  />
+								</Grid>
+							</GroupBox>
+							<GroupBox Header="Verð og Birgðir" Margin="0, 12, 0, 0" Padding="3, 3, 3, 3" BorderBrush="#244c63">
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="70" />
+										<ColumnDefinition Width="*" />
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="70" />
+									</Grid.ColumnDefinitions>
+									<TextBlock Text="Verð" VerticalAlignment="Center" />
+									<TextBox IsEnabled="{Binding Path=SelectedItem, ElementName=listItems, Mode=OneWay, Converter={StaticResource ItemSelectedToBool}}" x:Name="textboxProductPrice" Grid.Column="1" Margin="12, 0, 12, 0" Text="{Binding Path=SelectedItem.Price, ElementName=listItems, Mode=OneWay}" />
+									<TextBlock Text="Birgðir" Grid.Column="2" VerticalAlignment="Center" />
+									<TextBox IsEnabled="{Binding Path=SelectedItem, ElementName=listItems, Mode=OneWay, Converter={StaticResource ItemSelectedToBool}}" x:Name="textboxProductStock" Grid.Column="3" Margin="12, 0, 0, 0" Text="{Binding Path=SelectedItem.Stock, ElementName=listItems, Mode=OneWay}"  />
+								</Grid>
+							</GroupBox>
+						</StackPanel>
+						<GroupBox Grid.Row="1" Header="Sýnileiki" Margin="6, 6, 10, 6" Padding="3, 6, 3, 0" BorderBrush="#244c63">
+							<CheckBox IsEnabled="{Binding Path=SelectedItem, ElementName=listItems, Mode=OneWay, Converter={StaticResource ItemSelectedToBool}}" x:Name="checkboxProductVisible" VerticalAlignment="Center" IsChecked="{Binding Path=SelectedItem.Visible, ElementName=listItems, Mode=OneWay}">Sýnilegt á vefsíðu</CheckBox>
+						</GroupBox>
+						<GroupBox Grid.Row="1" Grid.Column="1" Header="Vörur sem fylgja þessari vöru" Margin="0, 6" Padding="3, 6, 3, 0" BorderBrush="#244c63">
+							<StackPanel Orientation="Horizontal">
+								<Button x:Name="buttonExpandProductInfo" IsEnabled="{Binding Path=SelectedItem, ElementName=listItems, Mode=OneWay, Converter={StaticResource ItemSelectedToBool}}" Width="80" Click="buttonExpandProductInfo_Click">Breyta</Button>
+								<TextBlock Margin="12, 0, 0, 0" VerticalAlignment="Center" Foreground="Green" Text="{Binding Path=SelectedItem.GetItem, ElementName=listItems, Mode=OneWay, Converter={StaticResource ItemSubItemsToString}}" />
+							</StackPanel>
+						</GroupBox>
+						<Grid Grid.Row="2" Grid.ColumnSpan="2">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+							<ListView ItemsSource="{Binding Path=SelectedItem.SubProducts, ElementName=listItems, Mode=OneWay}" ctrl:ListViewLayoutManager.Enabled="true" >
+								<ListView.Resources>
+									<Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}">
+										<Setter Property="Template">
+											<Setter.Value>
+												<ControlTemplate TargetType="{x:Type ScrollViewer}">
+													<Grid>
+														<Grid.ColumnDefinitions>
+															<ColumnDefinition Width="*"/>
+															<ColumnDefinition Width="Auto"/>
+														</Grid.ColumnDefinitions>
+														<Grid.RowDefinitions>
+															<RowDefinition Height="*"/>
+															<RowDefinition Height="Auto"/>
+														</Grid.RowDefinitions>
+
+														<DockPanel Margin="{TemplateBinding Padding}">
+															<ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Focusable="false">
+																<Grid Margin="0, 0, -5, 0">
+																	<Grid.Background>
+																		<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+																			<GradientStop Color="#ced1c1" Offset="0" />
+																			<GradientStop Color="#dde0d4" Offset="1" />
+																		</LinearGradientBrush>
+																	</Grid.Background>
+																	<Grid Margin="0, 1, 0, 1">
+																		<GridViewHeaderRowPresenter
+													    Columns="{Binding Path=TemplatedParent.View.Columns,RelativeSource={RelativeSource TemplatedParent}}"
+													    ColumnHeaderContainerStyle="{Binding Path=TemplatedParent.View.ColumnHeaderContainerStyle,RelativeSource={RelativeSource TemplatedParent}}"
+													    ColumnHeaderTemplate="{Binding Path=TemplatedParent.View.ColumnHeaderTemplate,RelativeSource={RelativeSource TemplatedParent}}"
+													    ColumnHeaderTemplateSelector="{Binding Path=TemplatedParent.View.ColumnHeaderTemplateSelector,RelativeSource={RelativeSource TemplatedParent}}"
+													    AllowsColumnReorder="{Binding Path=TemplatedParent.View.AllowsColumnReorder,RelativeSource={RelativeSource TemplatedParent}}"
+													    ColumnHeaderContextMenu="{Binding Path=TemplatedParent.View.ColumnHeaderContextMenu,RelativeSource={RelativeSource TemplatedParent}}"
+													    ColumnHeaderToolTip="{Binding Path=TemplatedParent.View.ColumnHeaderToolTip,RelativeSource={RelativeSource TemplatedParent}}"
+													    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+																	</Grid>
+																</Grid>
+															</ScrollViewer>
+
+															<Border BorderBrush="#000000" BorderThickness="0, 1, 0, 0" Margin="0, 0, 0, 0" Padding="0, 5, 5, 0">
+																<ScrollContentPresenter Name="PART_ScrollContentPresenter" KeyboardNavigation.DirectionalNavigation="Local"/>
+															</Border>
+														</DockPanel>
+
+														<ScrollBar Name="PART_HorizontalScrollBar"
+											Orientation="Horizontal"
+											Grid.Row="1"
+											Maximum="{TemplateBinding ScrollableWidth}"
+											ViewportSize="{TemplateBinding ViewportWidth}"
+											Value="{TemplateBinding HorizontalOffset}"
+											Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+
+														<ScrollBar Name="PART_VerticalScrollBar"
+											Grid.Column="1"
+											Maximum="{TemplateBinding ScrollableHeight}"
+											ViewportSize="{TemplateBinding ViewportHeight}"
+											Value="{TemplateBinding VerticalOffset}"/>
+
+													</Grid>
+												</ControlTemplate>
+											</Setter.Value>
+										</Setter>
+									</Style>
+
+									<Style x:Key="GridViewColumnHeaderGripper" TargetType="{x:Type Thumb}">
+										<Setter Property="Width" Value="18"/>
+										<Setter Property="Background" Value="#404040"/>
+										<Setter Property="Template">
+											<Setter.Value>
+												<ControlTemplate TargetType="{x:Type Thumb}">
+													<Border Padding="{TemplateBinding Padding}" Background="Transparent">
+														<Rectangle HorizontalAlignment="Center" Width="1" Fill="{TemplateBinding Background}"/>
+													</Border>
+												</ControlTemplate>
+											</Setter.Value>
+										</Setter>
+									</Style>
+
+									<!-- HEADER BAR -->
+									<Style x:Key="{x:Type GridViewColumnHeader}" TargetType="{x:Type GridViewColumnHeader}">
+										<Setter Property="HorizontalContentAlignment" Value="Center"/>
+										<Setter Property="VerticalContentAlignment" Value="Center"/>
+										<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+										<Setter Property="Template">
+											<Setter.Value>
+												<ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+													<Grid>
+														<Border Name="HeaderBorder" Padding="0">
+															<ContentPresenter Name="HeaderContent"
+												Margin="0,3,0,3"
+												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+												RecognizesAccessKey="True"
+												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+														</Border>
+														<Thumb x:Name="PART_HeaderGripper"
+											HorizontalAlignment="Right"
+											Margin="0,0,-9,0"
+											Style="{StaticResource GridViewColumnHeaderGripper}"/>
+													</Grid>
+												</ControlTemplate>
+											</Setter.Value>
+										</Setter>
+										<Style.Triggers>
+											<Trigger Property="Role" Value="Floating">
+												<Setter Property="Opacity" Value="0.7"/>
+												<Setter Property="Template">
+													<Setter.Value>
+														<ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+															<Canvas Name="PART_FloatingHeaderCanvas">
+																<Rectangle 
+													Fill="#60000000"
+													Width="{TemplateBinding ActualWidth}"
+													Height="{TemplateBinding ActualHeight}"/>
+															</Canvas>
+														</ControlTemplate>
+													</Setter.Value>
+												</Setter>
+											</Trigger>
+										</Style.Triggers>
+									</Style>
+									<!-- END HEADER BAR -->
+
+									<!-- START ListViewItem -->
+									<Style x:Key="{x:Type ListViewItem}" TargetType="{x:Type ListViewItem}">
+										<Setter Property="SnapsToDevicePixels" Value="true"/>
+										<Setter Property="OverridesDefaultStyle" Value="true"/>
+										<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+										<Setter Property="VerticalContentAlignment" Value="Stretch" />
+										<Setter Property="Template">
+											<Setter.Value>
+												<ControlTemplate TargetType="{x:Type ListBoxItem}">
+													<Grid Margin="0, 0, 0, 6">
+														<Border Grid.Row="0" Name="Border" BorderBrush="#244c63" BorderThickness="0, 0, 0, 0" SnapsToDevicePixels="true">
+															<GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+														</Border>
+													</Grid>
+												</ControlTemplate>
+											</Setter.Value>
+										</Setter>
+									</Style>
+								</ListView.Resources>
+								<ListView.View>
+									<GridView>
+										<GridViewColumn Header="Vörunúmer" Width="75" DisplayMemberBinding="{Binding Vorunr}" />
+										<GridViewColumn Header="Nafn" Width="175" DisplayMemberBinding="{Binding Name}" ctrl:RangeColumn.IsFillColumn="true" />
+										<GridViewColumn Header="Verð" Width="100" DisplayMemberBinding="{Binding Price}" ctrl:RangeColumn.MinWidth="60" />
+										<GridViewColumn Header="Fjöldi" Width="100" ctrl:RangeColumn.MinWidth="100" >
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<Grid>
+														<Grid.ColumnDefinitions>
+															<ColumnDefinition Width="*" />
+															<ColumnDefinition Width="50" />
+														</Grid.ColumnDefinitions>
+														<TextBox VerticalAlignment="Center" Grid.Row="0" Text="{Binding Count, Mode=OneWay}" TextChanged="SubItemCount_TextChanged" />
+														<Button x:Name="buttonSubItemCountSave" Grid.Column="1" IsEnabled="False" Margin="6, 0, 0, 0" Click="buttonSubItemCountSave_Click">Vista</Button>
+													</Grid>
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
+										<GridViewColumn Header="Samtals" Width="100" ctrl:RangeColumn.MinWidth="60">
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<TextBox Background="#fff888" IsReadOnly="True" Grid.Row="0" Text="{Binding TotalPrice, Mode=OneWay, Converter={StaticResource PriceToFormattedString}}" />
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
+										<GridViewColumn Header="Eyða" Width="40" ctrl:FixedColumn.Width="40" >
+											<GridViewColumn.CellTemplate>
+												<DataTemplate>
+													<pages:ButtonRemove HorizontalAlignment="Center" x:Name="buttonRemoveItem" DataContext="{Binding}" Margin="0, 0, 3, 3" RemoveItem="buttonRemoveItem_RemoveItem" />
+												</DataTemplate>
+											</GridViewColumn.CellTemplate>
+										</GridViewColumn>
+									</GridView>
+								</ListView.View>
+							</ListView>
+							<GroupBox Header="Undirvörur" Grid.Row="1" HorizontalAlignment="Right" BorderBrush="#244c63" Padding="3">
+								<StackPanel Orientation="Horizontal">
+									<Button x:Name="buttonAddSubItem" Width="125" Height="23" Margin="20, 0, 10, 0" Click="buttonAddSubItem_Click">Bæta vöru</Button>
+									<Button x:Name="buttonCloseSubItemView" Width="125" Height="23" Margin="10, 0, 20, 0" Click="buttonCloseSubItemView_Click">Loka breytingarviðmóti</Button>
+								</StackPanel>
+							</GroupBox>
+						</Grid>
+					</Grid>
+				</GroupBox>
+				<Border Grid.Row="1" Margin="0, 12, 0, 6" Padding="3, 6, 3, 6" BorderBrush="#244c63" BorderThickness="1" CornerRadius="3">
+					<StackPanel Orientation="Horizontal" Height="40" Width="550">
+						<StackPanel.Triggers>
+							<EventTrigger RoutedEvent="ButtonBase.Click" SourceName="buttonRemoveProduct">
+								<BeginStoryboard>
+									<Storyboard>
+										<Storyboard Storyboard.TargetProperty="Height" Storyboard.TargetName="popup">
+											<DoubleAnimation From="0" To="130" Duration="0:0:0.5" />
+										</Storyboard>
+									</Storyboard>
+								</BeginStoryboard>
+							</EventTrigger>
+						</StackPanel.Triggers>
+						<Popup StaysOpen="False" Width="250" Height="0" x:Name="popup" PlacementTarget="{Binding ElementName=buttonRemoveProduct}" Placement="Top">
+							<Popup.Resources>
+								<Storyboard x:Key="sizePopupClose">
+									<Storyboard Storyboard.TargetProperty="Height" Storyboard.TargetName="popup">
+										<DoubleAnimation To="0" Duration="0:0:0.5" />
+									</Storyboard>
+								</Storyboard>
+							</Popup.Resources>
+							<Frame DataContext="{Binding Path=SelectedItem, ElementName=treeCategories, Mode=OneWay}" x:Name="frameRemove" Grid.Row="1" Loaded="frameRemove_Loaded" />
+						</Popup>
+						<Button x:Name="buttonSaveChanges" Width="100" IsEnabled="{Binding Path=SelectedItem, ElementName=listItems, Mode=OneWay, Converter={StaticResource ItemSelectedToBool}}" Click="buttonSaveChanges_Click">Vista Breytingar</Button>
+						<Button x:Name="buttonCreateNewProduct" IsEnabled="{Binding Path=SelectedItem, ElementName=treeCategories, Mode=OneWay, Converter={StaticResource ItemSelectedToBool}}" Width="100" Margin="12, 0" Click="buttonCreateNewProduct_Click">
+							<TextBlock TextWrapping="Wrap" TextAlignment="Center">Búa til<LineBreak/>nýja vöru</TextBlock>
+						</Button>
+						<Button x:Name="buttonSaveNewProduct" Width="100" IsEnabled="False" Click="buttonSaveNewProduct_Click">Vista nýju vöruna</Button>
+						<Button x:Name="buttonMoveProduct" Width="100" Margin="12, 0" IsEnabled="{Binding Path=SelectedItem, ElementName=listItems, Mode=OneWay, Converter={StaticResource ItemSelectedToBool}}" Click="buttonMoveProduct_Click">
+							<TextBlock TextWrapping="Wrap" TextAlignment="Center">Færa vöru <LineBreak/>í annan flokk</TextBlock>
+						</Button>
+						<Button x:Name="buttonRemoveProduct" Width="100" IsEnabled="{Binding Path=SelectedItem, ElementName=listItems, Mode=OneWay, Converter={StaticResource ItemSelectedToBool}}" Click="buttonRemoveProduct_Click">
+							<TextBlock TextWrapping="Wrap" TextAlignment="Center" Foreground="Red">Eyða vöru</TextBlock>
+						</Button>
+					</StackPanel>
+				</Border>
+			</Grid>
+		</Grid>
+		<GroupBox Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Right" Header="Hætta" BorderBrush="#244c63" Margin="6" Width="300">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="12" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Button Grid.Column="0" x:Name="buttonClose" Margin="6, 6, 6, 3" Width="125" Height="25" Click="buttonClose_Click">Vista og loka</Button>
+				<Button Grid.Column="2" x:Name="buttonDiscardClose" Margin="6, 6, 6, 3" Width="125" Height="25" Click="buttonDiscardClose_Click">Bara loka</Button>
+			</Grid>
+		</GroupBox>
+	</Grid>
+</Window>

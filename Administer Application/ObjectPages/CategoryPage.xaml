@@ -1,0 +1,292 @@
+﻿<Page x:Class="Administer_Application.ObjectPages.CategoryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:ctrl="clr-namespace:Itenso.Windows.Controls.ListViewLayout"
+    xmlns:kisildalur="clr-namespace:Administer_Application"
+	xmlns:properties="clr-namespace:Administer_Application.Properties"
+	xmlns:database="clr-namespace:Database;assembly=Database"
+    Title="Folder">
+	<Page.Resources>
+		<kisildalur:IntIdToImageThumbPath x:Key="IntIdToImageThumbPath" />
+		<kisildalur:IntIdToImageExistInt x:Key="IntIdToImageExistInt" />
+		<kisildalur:PriceToFormattedString x:Key="PriceToFormattedString" />
+	</Page.Resources>
+	<Border BorderBrush="#14384d" BorderThickness="1, 1, 1, 1">
+		<Border BorderBrush="#ACA899" BorderThickness="1, 1, 0, 0">
+			<Border BorderBrush="#ECE9D8" BorderThickness="0, 0, 1, 1">
+				<Grid Background="White">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+					<GroupBox Header="Nafn" Margin="6">
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<TextBox Margin="6" Background="#EEEEEE" x:Name="textboxCategoryName" VerticalAlignment="Center" Width="150" Text="{Binding Path=Category.Name}" IsReadOnly="True"/>
+							<Button Margin="3, 0, 0, 0" x:Name="editCategory" VerticalAlignment="Center" BorderThickness="0" Padding="0" Background="Transparent" BorderBrush="Transparent" ToolTip="Breyta þessari færslu" Click="editCategory_Click">
+								<Image Width="16" Height="16" Source="/Administer_Application;component/Resources/edit.png"></Image>
+							</Button>
+							<Button Margin="3, 0, 0, 0" x:Name="removeCategory" VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent" ToolTip="Deyða þessum flokk">
+								<Image Width="16" Height="16" Source="/Administer_Application;component/Resources/icon_delete.gif"></Image>
+							</Button>
+						</StackPanel>
+					</GroupBox>
+					<ListView x:Name="listItems" Grid.Row="1" Margin="6" ItemsSource="{Binding Path=Category.Items}" ctrl:ListViewLayoutManager.Enabled="true">
+						<ListView.Resources>
+							<Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}">
+								<Setter Property="Template">
+									<Setter.Value>
+										<ControlTemplate TargetType="{x:Type ScrollViewer}">
+											<Grid Background="{TemplateBinding Background}">
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition Width="*"/>
+													<ColumnDefinition Width="Auto"/>
+												</Grid.ColumnDefinitions>
+												<Grid.RowDefinitions>
+													<RowDefinition Height="*"/>
+													<RowDefinition Height="Auto"/>
+												</Grid.RowDefinitions>
+
+												<DockPanel Margin="{TemplateBinding Padding}">
+													<ScrollViewer DockPanel.Dock="Top"
+													  HorizontalScrollBarVisibility="Hidden"
+													  VerticalScrollBarVisibility="Hidden"
+													  Focusable="false">
+
+													</ScrollViewer>
+
+													<ScrollContentPresenter Name="PART_ScrollContentPresenter"
+														KeyboardNavigation.DirectionalNavigation="Local"/>
+												</DockPanel>
+
+												<ScrollBar Name="PART_HorizontalScrollBar"
+													Orientation="Horizontal"
+													Grid.Row="1"
+													Maximum="{TemplateBinding ScrollableWidth}"
+													ViewportSize="{TemplateBinding ViewportWidth}"
+													Value="{TemplateBinding HorizontalOffset}"
+													Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+
+												<ScrollBar Name="PART_VerticalScrollBar"
+													Grid.Column="1"
+													Maximum="{TemplateBinding ScrollableHeight}"
+													ViewportSize="{TemplateBinding ViewportHeight}"
+													Value="{TemplateBinding VerticalOffset}"
+													Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+
+											</Grid>
+										</ControlTemplate>
+									</Setter.Value>
+								</Setter>
+							</Style>
+
+							<Style x:Key="{x:Type ListViewItem}" TargetType="{x:Type ListViewItem}">
+								<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+								<Setter Property="Template">
+									<Setter.Value>
+										<ControlTemplate TargetType="{x:Type ListBoxItem}">
+											<Grid>
+												<Border x:Name="Border" BorderThickness="0, 0, 0, 1" Background="#00FFFFFF" BorderBrush="#CCCCCC" Margin="0, 0, 0, 0" Padding="5, 11, 5, 8">
+													<GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+												</Border>
+											</Grid>
+											<ControlTemplate.Triggers>
+												<Trigger Property="IsSelected" Value="true">
+													<Setter TargetName="Border" Property="Background">
+														<Setter.Value>
+															<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+																<GradientStop Color="#A5A5A5" Offset="0" />
+																<GradientStop Color="#FFFFFF" Offset="0.3" />
+																<GradientStop Color="#FFFFFF" Offset="0.7" />
+																<GradientStop Color="#A5A5A5" Offset="1" />
+															</LinearGradientBrush>
+														</Setter.Value>
+													</Setter>
+												</Trigger>
+											</ControlTemplate.Triggers>
+										</ControlTemplate>
+									</Setter.Value>
+								</Setter>
+							</Style>
+						</ListView.Resources>
+						<ListView.View>
+							<GridView>
+								<GridViewColumn Header="" ctrl:RangeColumn.IsFillColumn="true" >
+									<GridViewColumn.CellTemplate>
+										<DataTemplate>
+											<Grid>
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition Width="70" />
+													<ColumnDefinition Width="*" />
+												</Grid.ColumnDefinitions>
+												<Border Margin="0, 0, 10, 0" BorderThickness="{Binding Path=ID, Converter={StaticResource IntIdToImageExistInt}, Mode=OneWay}" BorderBrush="#CCCCCC" >
+													<Image Source="{Binding Path=ID, Converter={StaticResource IntIdToImageThumbPath}, Mode=OneWay}" />
+												</Border>
+												<Grid Grid.Column="1">
+													<Grid.RowDefinitions>
+														<RowDefinition Height="*" />
+														<RowDefinition Height="Auto" />
+													</Grid.RowDefinitions>
+													<StackPanel>
+														<TextBlock FontSize="14" Foreground="#000000" Text="{Binding Name}">
+															<TextBlock Margin="5, 0, 0, 0" FontSize="9" Foreground="Gray" Text="{Binding ProductID}" />
+														</TextBlock>
+														<TextBlock FontSize="11" Foreground="#555555" Text="{Binding Sub}" />
+													</StackPanel>
+													<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 5, 0, 0">
+														<TextBlock FontWeight="Bold" FontSize="13" Foreground="#e48422">kr. <TextBlock Text="{Binding Price, Converter={StaticResource PriceToFormattedString}}" /></TextBlock>
+													</StackPanel>
+												</Grid>
+											</Grid>
+										</DataTemplate>
+									</GridViewColumn.CellTemplate>
+								</GridViewColumn>
+							</GridView>
+						</ListView.View>
+					</ListView>
+					<Grid x:Name="gridEditCategory" Background="White" Grid.Row="1" Margin="6, 6, 6, 0" Height="{Binding Path=ActualHeight, ElementName=listItems, Mode=OneWay}" VerticalAlignment="Top">
+						<Grid.Resources>
+							<Storyboard x:Key="gridOpenAnimation">
+								<Storyboard Storyboard.TargetProperty="(Grid.Height)" Storyboard.TargetName="gridEditCategory">
+									<DoubleAnimation From="0"
+										To="{Binding Path=ActualHeight, ElementName=listItems, Mode=OneWay}"
+										Duration="00:00:0.5" FillBehavior="Stop">
+									</DoubleAnimation>
+								</Storyboard>
+							</Storyboard>
+							<Storyboard x:Key="gridCloseAnimation">
+								<Storyboard Storyboard.TargetProperty="(Grid.Height)" Storyboard.TargetName="gridEditCategory">
+									<DoubleAnimation From="{Binding Path=ActualHeight, ElementName=listItems, Mode=OneWay}"
+										To="0"
+										Duration="00:00:0.5" FillBehavior="Stop">
+									</DoubleAnimation>
+								</Storyboard>
+							</Storyboard>
+						</Grid.Resources>
+						<GroupBox Header="Flokkur">
+							<Grid>
+								<Grid.Resources>
+									<DataTemplate x:Key="subItemTemplate">
+										<TextBlock Margin="0, 3">
+											<Hyperlink>
+												<TextBlock Text="{Binding Path=Name}">
+													<TextBlock.ToolTip>
+														<StackPanel>
+															<TextBlock Margin="6, 0, 0, 3" FontWeight="Bold" Text="{Binding Path=Name}" FontSize="12" />
+															<TextBlock MaxWidth="350" TextWrapping="WrapWithOverflow" Text="{Binding Path=Description}" />
+														</StackPanel>
+													</TextBlock.ToolTip>
+												</TextBlock> 
+											</Hyperlink>
+										</TextBlock>
+									</DataTemplate>
+									<ControlTemplate x:Key="controlTemplate" TargetType="{x:Type ItemsControl}">
+										<StackPanel Background="White" IsItemsHost="True" />
+									</ControlTemplate>
+									<DataTemplate x:Key="itemTemplate">
+										<GroupBox Margin="0, 6, 6, 0">
+											<GroupBox.Header>
+												<StackPanel Orientation="Horizontal">
+													<TextBlock x:Name="labelPropertyGroup" VerticalAlignment="Center" Text="{Binding Path=Name}" />
+													<Button Margin="6, 0, 0, 0" x:Name="buttonEditPropertyGroup" VerticalAlignment="Center" BorderThickness="0" Padding="0" Background="Transparent" BorderBrush="Transparent" ToolTip="Breyta þessari færslu" Click="buttonEditPropertyGroup_Click">
+														<Image Width="16" Height="16" Source="/Administer_Application;component/Resources/edit.png"></Image>
+													</Button>
+													<Popup StaysOpen="False" Width="250" Height="0" x:Name="popupEditPropertyGroup" VerticalOffset="4" PlacementTarget="{Binding ElementName=labelPropertyGroup}">
+														<Popup.Resources>
+															<Storyboard x:Key="sizePopupClose">
+																<Storyboard Storyboard.TargetProperty="Height" Storyboard.TargetName="popupEditPropertyGroup">
+																	<DoubleAnimation To="0" Duration="0:0:0.5" />
+																</Storyboard>
+															</Storyboard>
+															<Storyboard x:Key="sizePopupOpen">
+																<Storyboard Storyboard.TargetProperty="Height" Storyboard.TargetName="popupEditPropertyGroup">
+																	<DoubleAnimation From="0" To="150" Duration="0:0:0.25" />
+																</Storyboard>
+															</Storyboard>
+														</Popup.Resources>
+														<Border BorderBrush="DarkGray" BorderThickness="1">
+															<Border.Background>
+																<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+																	<GradientStop Color="White" Offset="0" />
+																	<GradientStop Color="#F1F1F1" Offset="1" />
+																</LinearGradientBrush>
+															</Border.Background>
+															<Frame DataContext="{Binding}" x:Name="frameEditPropertyGroup" Grid.Row="1" Loaded="frameAddPropertyGroup_Loaded" />
+														</Border>
+													</Popup>
+												</StackPanel>
+											</GroupBox.Header>
+											<ItemsControl x:Name="listChatHost"
+												ItemsSource="{Binding Path=Properties}"
+												ItemTemplate="{StaticResource subItemTemplate}"
+												Template="{StaticResource controlTemplate}" />
+										</GroupBox>
+									</DataTemplate>
+								</Grid.Resources>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="*" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+								<TextBlock Text="Nafn:" VerticalAlignment="Center" Margin="0, 0, 12, 0" />
+								<TextBox Grid.Column="1" Margin="3" VerticalAlignment="Center" Text="{Binding Path=Category.Name}" />
+								<TextBlock Grid.Row="1" Text="Undirflokkur:" VerticalAlignment="Center" Margin="0, 0, 12, 0" />
+								<ComboBox Grid.Row="1" Grid.Column="1" Margin="3" />
+								<StackPanel Margin="3, 6, 3, 3" Grid.Row="2" Grid.ColumnSpan="2">
+									<Button Margin="3, 0, 0, 0" x:Name="buttonAddPropertyGroup" Width="75" VerticalAlignment="Center" BorderThickness="0" Padding="0" Background="Transparent" BorderBrush="Transparent" ToolTip="Búa til property hóp" HorizontalAlignment="Left" Click="buttonAddPropertyGroup_Click">
+										<StackPanel Orientation="Horizontal">
+											<Image Width="16" Height="16" Source="/Administer_Application;component/Resources/add.png"></Image>
+											<TextBlock Margin="12, 0, 0, 0" VerticalAlignment="Center" Text="Add" />
+										</StackPanel>
+									</Button>
+									
+									<Border BorderThickness="0, 1, 0, 1" BorderBrush="LightGray">
+										<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+											<ItemsControl x:Name="listChatHost"
+												ItemsSource="{Binding Path=Category.PropertyGroups}"
+												ItemTemplate="{StaticResource itemTemplate}"
+												Template="{StaticResource controlTemplate}"/>
+										</ScrollViewer>
+									</Border>
+									<Popup StaysOpen="False" Width="250" Height="0" x:Name="popupAddPropertyGroup" PlacementTarget="{Binding ElementName=buttonAddPropertyGroup}">
+										<Popup.Resources>
+											<Storyboard x:Key="sizePopupClose">
+												<Storyboard Storyboard.TargetProperty="Height" Storyboard.TargetName="popupAddPropertyGroup">
+													<DoubleAnimation To="0" Duration="0:0:0.5" />
+												</Storyboard>
+											</Storyboard>
+											<Storyboard x:Key="sizePopupOpen">
+												<Storyboard Storyboard.TargetProperty="Height" Storyboard.TargetName="popupAddPropertyGroup">
+													<DoubleAnimation From="0" To="150" Duration="0:0:0.25" />
+												</Storyboard>
+											</Storyboard>
+										</Popup.Resources>
+										<Border BorderBrush="DarkGray" BorderThickness="1">
+											<Border.Background>
+												<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+													<GradientStop Color="White" Offset="0" />
+													<GradientStop Color="#F1F1F1" Offset="1" />
+												</LinearGradientBrush>
+											</Border.Background>
+											<Frame DataContext="{Binding}" x:Name="frameAddPropertyGroup" Grid.Row="1" Loaded="frameAddPropertyGroup_Loaded" />
+										</Border>
+									</Popup>
+								</StackPanel>
+								<GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="Hætta við" HorizontalAlignment="Left">
+									<Button x:Name="buttonCancelEditing" Width="100" Height="22" Margin="6, 3, 6, 0" Click="buttonCancelEditing_Click">Cancel</Button>
+								</GroupBox>
+								<GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="Vista og loka" HorizontalAlignment="Right">
+									<Button x:Name="buttonSaveEditing" Width="100" Height="22" Margin="6, 3, 6, 0" Click="buttonSaveEditing_Click">Vista</Button>
+								</GroupBox>
+							</Grid>
+						</GroupBox>
+					</Grid>
+				</Grid>
+			</Border>
+		</Border>
+	</Border>
+</Page>
