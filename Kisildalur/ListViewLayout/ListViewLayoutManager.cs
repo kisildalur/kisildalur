@@ -281,7 +281,7 @@ namespace Itenso.Windows.Controls.ListViewLayout
 				int addSpace = 0;
 				object value = this.listView.ReadLocalValue(AddExtraSpace);
 				if (value != null && value.GetType() == AddExtraSpace.PropertyType)
-					addSpace = 6;
+					addSpace = 0;
 
 				if ( fillColumn != null )
 				{

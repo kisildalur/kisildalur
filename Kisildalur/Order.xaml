@@ -55,21 +55,13 @@
                 <TextBlock VerticalAlignment="Center" Margin="12, 0, 0, 0" FontSize="12" FontFamily="Georgia" Foreground="White" Text="Strikamerki: " />
                 <TextBox x:Name="textboxBarcode" Width="100" FontSize="12" FontFamily="Georgia" Foreground="Black" KeyUp="Barcode_KeyUp" />
             </StackPanel>
-            <ListView x:Name="listItems" BorderBrush="DarkGray" BorderThickness="1" Background="Gray" Grid.Row="1" Margin="5" ItemsSource="{Binding Items}" ctrl:ListViewLayoutManager.Enabled="true" ctrl:ListViewLayoutManager.AddSpace="true">
+            <ListView x:Name="listItems" Grid.Row="1" Background="Transparent" BorderThickness="0" Margin="5" ItemsSource="{Binding Items}" ctrl:ListViewLayoutManager.Enabled="true" ctrl:ListViewLayoutManager.AddSpace="true">
                 <ListView.Resources>
                     <Style x:Key="{x:Static GridView.GridViewScrollViewerStyleKey}" TargetType="{x:Type ScrollViewer}">
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                                    <Grid>
-                                        <Grid.Background>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                <GradientStop Color="LightGray" Offset="0" />
-                                                <GradientStop Color="#dde0d4" Offset="0.065" />
-                                                <!--<GradientStop Color="#95b2c2" Offset="0" />
-												<GradientStop Color="#ced1c1" Offset="0.065" />-->
-                                            </LinearGradientBrush>
-                                        </Grid.Background>
+                                    <Grid Background="#4f7e99" Margin="0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
@@ -81,7 +73,7 @@
 
                                         <DockPanel Margin="{TemplateBinding Padding}">
                                             <ScrollViewer DockPanel.Dock="Top" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Focusable="false">
-                                                <Grid Margin="25, 4, -5, 0">
+                                                <Grid Margin="0, 4, -5, 0">
                                                     <GridViewHeaderRowPresenter
 													Columns="{Binding Path=TemplatedParent.View.Columns,RelativeSource={RelativeSource TemplatedParent}}"
 													ColumnHeaderContainerStyle="{Binding Path=TemplatedParent.View.ColumnHeaderContainerStyle,RelativeSource={RelativeSource TemplatedParent}}"
@@ -94,7 +86,7 @@
                                                 </Grid>
                                             </ScrollViewer>
 
-                                            <Border BorderBrush="#000000" BorderThickness="1, 1, 0, 0" CornerRadius="5, 0, 0, 0" Background="Gray" Margin="13, 5, 0, 0" Padding="0, 5, 5, 0">
+                                            <Border BorderBrush="#8caabc" BorderThickness="0, 3, 0, 0" Background="#52636d" Margin="0, 5, 0, 0" Padding="0, 5, 5, 0">
                                                 <ScrollContentPresenter Name="PART_ScrollContentPresenter" KeyboardNavigation.DirectionalNavigation="Local"/>
                                             </Border>
                                         </DockPanel>
@@ -111,7 +103,8 @@
 											Grid.Column="1"
 											Maximum="{TemplateBinding ScrollableHeight}"
 											ViewportSize="{TemplateBinding ViewportHeight}"
-											Value="{TemplateBinding VerticalOffset}"/>
+											Value="{TemplateBinding VerticalOffset}"
+											Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
 
                                     </Grid>
                                 </ControlTemplate>
@@ -126,7 +119,7 @@
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type Thumb}">
                                     <Border Padding="{TemplateBinding Padding}" Background="Transparent">
-                                        <Rectangle HorizontalAlignment="Center" Width="1" Fill="{TemplateBinding Background}"/>
+                                        <Rectangle HorizontalAlignment="Center" Width="1" Fill="#8caabc"/>
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
@@ -148,24 +141,22 @@
 												VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 												HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 												RecognizesAccessKey="True"
-												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+												SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                                <ContentPresenter.ContentTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding}" FontSize="12" Foreground="White" FontWeight="Bold" ></TextBlock>
+                                                    </DataTemplate>
+                                                </ContentPresenter.ContentTemplate>
+                                            </ContentPresenter>
                                         </Border>
                                         <Thumb x:Name="PART_HeaderGripper"
 											HorizontalAlignment="Right"
-											Margin="0,0,-6,0"
+											Margin="0,0,-9,0"
 											Style="{StaticResource GridViewColumnHeaderGripper}"/>
                                     </Grid>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="true">
-                                            <Setter TargetName="HeaderBorder" Property="Background">
-                                                <Setter.Value>
-                                                    <RadialGradientBrush>
-                                                        <GradientStop Color="#D0FFFFFF" Offset="0"/>
-                                                        <GradientStop Color="#00FFFFFF" Offset="1"/>
-                                                    </RadialGradientBrush>
-                                                </Setter.Value>
-                                            </Setter>
-
+                                            <Setter TargetName="HeaderBorder" Property="Background" Value="#8caabc" />
                                         </Trigger>
                                         <Trigger Property="IsEnabled" Value="false">
                                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
@@ -215,18 +206,12 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                    <Grid Margin="8, 0, 0, 6">
+                                    <Grid Margin="4, 0, 0, 6">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
-                                        <Border Grid.Row="0" Grid.ColumnSpan="3" Name="Border" BorderBrush="#244c63" BorderThickness="1" CornerRadius="3" Padding="0, 4, 0, 3" SnapsToDevicePixels="true">
-                                            <Border.Background>
-                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                    <GradientStop Color="#ced1c1" Offset="0" />
-                                                    <GradientStop Color="#dde0d4" Offset="1" />
-                                                </LinearGradientBrush>
-                                            </Border.Background>
+                                        <Border Grid.Row="0" Grid.ColumnSpan="3" Name="Border" BorderBrush="#244c63" Background="#9ab4c5" BorderThickness="0" CornerRadius="0" Padding="0, 4, 0, 3" SnapsToDevicePixels="true">
                                             <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                         </Border>
                                         <Grid Grid.Row="1" Margin="0, 0, 30, 0" Visibility="{Binding Path=ContainsSubitems, Converter={StaticResource BoolToVisibililty}}">
@@ -257,8 +242,8 @@
                                                                     <ColumnDefinition Width="{Binding Path=ptop2Width, Source={x:Static properties:config.Default}, Mode=OneWay}" />
                                                                     <ColumnDefinition Width="{Binding Path=ptop3Width, Source={x:Static properties:config.Default}, Mode=OneWay}" />
                                                                 </Grid.ColumnDefinitions>
-                                                                <Button Tag="{Binding ElementName=itemsControlSubItems, Path=DataContext}" Width="16" Height="16" Style="{StaticResource SimpleButton}" ToolTip="Deyða þessari innihaldsvöru" Margin="3, 2, 0, 2" Click="removeSubItemFromProduct_Click">
-                                                                    <Image Source="/Kisildalur;component/Resources/icon_delete.gif"></Image>
+                                                                <Button Style="{StaticResource ButtonFlat}" Tag="{Binding ElementName=itemsControlSubItems, Path=DataContext}" ToolTip="Deyða þessari innihaldsvöru" Margin="3, 2, 0, 2" Click="removeSubItemFromProduct_Click">
+                                                                    <Image Margin="3" Width="16" Height="16" Source="/Kisildalur;component/Resources/icon_delete.gif"></Image>
                                                                 </Button>
                                                                 <TextBox VerticalAlignment="Center" Margin="3, 0" Grid.Column="1" Text="{Binding Vorunr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                                 <TextBox VerticalAlignment="Center" Margin="3, 0" Grid.Column="2" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -270,8 +255,8 @@
                                                 </ItemsControl>
                                             </Border>
                                             <Border VerticalAlignment="Bottom" Margin="10, 6, -1, 0" BorderBrush="#244c63" BorderThickness="1, 1, 0, 1" CornerRadius="3, 0, 0, 3" Height="26" Background="#366D8D" >
-                                                <Button Tag="{Binding ElementName=itemsControlSubItems, Path=DataContext}" Width="16" Height="16" Style="{StaticResource SimpleButton}" ToolTip="Bæta við innihaldsvöru" HorizontalAlignment="Center" VerticalAlignment="Center" Click="addSubItemToProduct_Click">
-                                                    <Image Source="/Kisildalur;component/Resources/add.png"></Image>
+                                                <Button Style="{StaticResource ButtonFlat}" Tag="{Binding ElementName=itemsControlSubItems, Path=DataContext}" ToolTip="Bæta við innihaldsvöru" HorizontalAlignment="Center" VerticalAlignment="Center" Click="addSubItemToProduct_Click">
+                                                    <Image Margin="3" Width="16" Height="16" Source="/Kisildalur;component/Resources/add.png"></Image>
                                                 </Button>
                                             </Border>
                                         </Grid>
@@ -294,11 +279,11 @@
                                         </Grid.RowDefinitions>
                                         <TextBox Grid.Row="0" Text="{Binding Vorunr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="listViewItemContent_TextChanged" />
                                         <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0, 4, 0, 0">
-                                            <Button x:Name="removeItemFromList" Background="Transparent" BorderBrush="Transparent" ToolTip="Deyða þessari færslu úr pöntuninni" Click="removeItemFromList_Click">
-                                                <Image Width="16" Height="16" Source="/Kisildalur;component/Resources/icon_delete.gif"></Image>
+                                            <Button Style="{StaticResource ButtonFlat}" x:Name="removeItemFromList" ToolTip="Deyða þessari færslu úr pöntuninni" Click="removeItemFromList_Click">
+                                                <Image Margin="3" Width="16" Height="16" Source="/Kisildalur;component/Resources/icon_delete.gif"></Image>
                                             </Button>
-                                            <Button x:Name="clearItemFromList" Background="Transparent" BorderBrush="Transparent" ToolTip="Hreinsa allar upplýsingar úr þessar færslu" Click="clearItemFromList_Click">
-                                                <Image Width="16" Height="16" Source="/Kisildalur;component/Resources/clear.png"></Image>
+                                            <Button Style="{StaticResource ButtonFlat}" x:Name="clearItemFromList" ToolTip="Hreinsa allar upplýsingar úr þessar færslu" Click="clearItemFromList_Click">
+                                                <Image Margin="3" Width="16" Height="16" Source="/Kisildalur;component/Resources/clear.png"></Image>
                                             </Button>
                                         </StackPanel>
                                     </Grid>
