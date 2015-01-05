@@ -74,7 +74,7 @@
 							<StackPanel>
 								<StackPanel Orientation="Horizontal">
 									<TextBlock VerticalAlignment="Center" Width="30" Margin="0, 0, 6, 0" Text="Kt." />
-									<TextBox Width="180" x:Name="textBoxKennitala" Text="{Binding Path=Customer.Kennitala, Mode=OneWay}" />
+									<TextBox Width="180" x:Name="textBoxKennitala" Text="{Binding Path=Customer.Kennitala, Mode=OneWay}" KeyUp="textBoxKennitala_KeyUp" />
 								</StackPanel>
 								<StackPanel Orientation="Horizontal" Margin="0, 3, 0, 0">
 									<TextBlock x:Name="textblockName" VerticalAlignment="Center" Width="30" Margin="0, 0, 6, 0" Text="Nafn:">
@@ -131,7 +131,7 @@
 											</Border>
 										</Popup>
 									</TextBlock>
-									<TextBox Width="180" x:Name="textBoxNafn" Text="{Binding Path=Customer.Name, Mode=OneWay}" />
+									<TextBox Width="180" x:Name="textBoxNafn" Text="{Binding Path=Customer.Name, Mode=OneWay}" KeyUp="textBoxNafn_KeyUp"/>
 									<StackPanel Orientation="Horizontal">
 										<Button x:Name="retreaveCustomerInformation" Margin="6, 0, 0, 0" Height="20" Width="50" Click="retreaveCustomerInformation_Click">Leita</Button>
 										<Button x:Name="editCustomerInformation" Margin="6, 0, 0, 0" Height="20" Width="50" IsEnabled="{Binding Path=Customer, Converter={StaticResource OrderContainsCustomer}}" Click="editCustomerInformation_Click">Edit</Button>

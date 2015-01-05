@@ -70,8 +70,10 @@ namespace Database
 			{
 				if (_order.Date.Year < 2010)
 					build.Append("Vsk 24,5%:\n");
-				else
+                else if (_order.Date.Year < 2015)
 					build.Append("Vsk 25,5%:\n");
+                else
+                    build.Append("Vsk 24,0%:\n");
 				build2.AppendFormat("{0:#,0}\n", vsk_245);
 			}
 			if (vsk_7 != 0)

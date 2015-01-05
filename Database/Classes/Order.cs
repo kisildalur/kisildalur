@@ -34,6 +34,7 @@ namespace Database
         /// </summary>
 		public Order()
 		{
+            _date = DateTime.Now;
 			_items = new OrderItemCollection(this);
             _payment = new OrderPaymentCollection();
 			_globalDiscount = new Discount();

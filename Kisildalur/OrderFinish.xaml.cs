@@ -605,5 +605,21 @@ namespace Kisildalur
                                        item.Price),
                         "Bæta í gagnagrunni", MessageBoxButton.YesNo) == MessageBoxResult.Yes;
         }
+
+        private void textBoxKennitala_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                retreaveCustomerInformation_Click(null, null);
+            }
+        }
+
+        private void textBoxNafn_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                retreaveCustomerInformation_Click(null, null);
+            }
+        }
 	}
 }

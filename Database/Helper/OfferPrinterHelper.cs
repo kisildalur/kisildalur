@@ -66,7 +66,7 @@ namespace Database
             build2.AppendFormat("{0:#,0}\n", total - totalVsk);
             if (vsk_245 != 0)
             {
-                build.Append("Vsk 25,5%:\n");
+                build.Append("Vsk 24,0%:\n");
                 build2.AppendFormat("{0:#,0}\n", vsk_245);
             }
             if (vsk_7 != 0)

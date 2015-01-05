@@ -207,7 +207,7 @@ namespace Database
 				{
 					if (payment.Amount != 0)
 					{
-                        if (_orders[0].Date.Year >= 2010 && _orders[0].Date.Year < 2010)
+                        if (_orders[0].Date.Year >= 2015)
 							this.PrintingTable.Add(new PrintingTableEntry(payment.Name,
 												payment.Id.ToString(),
 												string.Format("{0:#,0}", payment.Amount * (1 - (1 / 1.240))),

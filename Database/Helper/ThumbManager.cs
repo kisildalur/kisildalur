@@ -16,6 +16,7 @@ namespace Database
 		}
 
 		private MainDatabase _db;
+        private Dictionary<int, Item> _albumMap;
 
 		public void DownloadThumbs(BackgroundWorker worker, ref List<int> updateList)
 		{
@@ -24,7 +25,7 @@ namespace Database
 			string message = "Checking for thumbnails to download";
 
 			RunPrelimenaryChecks();
-
+            
 			foreach (Item item in _db.GetItems())
 			{
 				int imageIndex = item.GetPrimaryImageIndex();
