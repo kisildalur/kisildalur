@@ -138,7 +138,7 @@ namespace Database
 			//It encapsulates the page attribute and then manipulates the HasMorePage variable
 
 			//Check if we have printed all pages
-            if (_page >= 3 || (_page == 0 && !_order.PrintTwoCopies))
+            if (_page >= 2 || (_page == 0 && !_order.PrintTwoCopies))
                 e.HasMorePages = false;
 			//Check if a new page should be printed if the order is just a normal order
             else

@@ -29,7 +29,7 @@ namespace Administer_Application
             _mainWidthBinding = BindingOperations.GetBinding(mainColumnOpen, Grid.WidthProperty);
             mainColumnOpen.Width = 0;
             UserId = -1;
-			DB = new Database.Database();
+			DB = new Database.MainDatabase();
 			_reportHandler = new WorkerReportHandler("Connecting in: 1", 0, 100);
 			this.DataContext = DB;
 			statusText.DataContext = _reportHandler;
@@ -52,7 +52,7 @@ namespace Administer_Application
         Binding _mainWidthBinding;
 		BackgroundWorker _backgroundWorker;
 		WorkerReportHandler _reportHandler;
-		public static Database.Database DB;
+		public static Database.MainDatabase DB;
         public static int UserId;
 
 		ObjectPages.ItemViewer _pagesItemStorage;

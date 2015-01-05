@@ -6,12 +6,6 @@ using System.IO.Packaging;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
-using FluentNHibernate.Cfg;
-using FluentNHibernate.Cfg.Db;
-using NHibernate;
-using NHibernate.Cfg;
-using Database.Core;
-using Database.Entities;
 
 namespace ConsoleTest
 {
